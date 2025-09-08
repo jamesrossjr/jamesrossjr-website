@@ -208,89 +208,97 @@ const categories = [
 const blogPosts = [
   {
     id: 1,
-    slug: 'scalable-ai-pipelines-kubernetes-ray',
-    title: 'Building Scalable AI Pipelines with Kubernetes and Ray',
-    excerpt: 'Learn how to create production-ready machine learning pipelines that can scale from a single GPU to thousands of nodes seamlessly.',
-    category: 'AI & ML',
-    date: 'September 5, 2025',
-    readTime: 8,
+    slug: 'microservices-to-monolith-when-why',
+    title: 'From Microservices Back to Monolith: When and Why to Consolidate',
+    excerpt: 'Sometimes the best architectural decision is to simplify. Learn when microservices become a burden and how to strategically consolidate back to a modular monolith.',
+    category: 'Architecture',
+    date: 'December 8, 2024',
+    readTime: 12,
+    author: 'James Ross Jr.',
     gradient: 'from-purple-600/80 to-pink-600/80',
     image: 'from-violet-500 via-purple-500 to-pink-500'
   },
   {
     id: 2,
-    slug: 'zero-trust-twingate-enterprise',
-    title: 'Zero-Trust Networking: Implementing Twingate in Enterprise',
-    excerpt: 'A comprehensive guide to deploying zero-trust network architecture using Twingate for secure, scalable enterprise access control.',
-    category: 'Networking',
-    date: 'September 3, 2025',
-    readTime: 12,
+    slug: 'ai-code-review-automation',
+    title: 'Implementing AI-Powered Code Review: Beyond Traditional Linting',
+    excerpt: 'How to build an intelligent code review system using LLMs that understands context, business logic, and can catch subtle bugs that traditional tools miss.',
+    category: 'AI & ML',
+    date: 'December 5, 2024',
+    readTime: 15,
+    author: 'James Ross Jr.',
     gradient: 'from-blue-600/80 to-cyan-600/80',
     image: 'from-blue-500 via-cyan-500 to-teal-500'
   },
   {
     id: 3,
-    slug: 'rust-vs-go-performance',
-    title: 'Rust vs Go: Performance Benchmarks for System Programming',
-    excerpt: 'Deep dive into performance comparisons between Rust and Go for systems programming, with real-world benchmarks and use cases.',
-    category: 'Programming',
-    date: 'August 30, 2025',
-    readTime: 15,
+    slug: 'real-time-data-streaming-architecture',
+    title: 'Building Real-Time Data Streaming Architecture at Scale',
+    excerpt: 'Architectural patterns and lessons learned from processing 100+ billion events daily using Apache Kafka, Flink, and ClickHouse.',
+    category: 'Architecture',
+    date: 'November 28, 2024',
+    readTime: 18,
+    author: 'James Ross Jr.',
     gradient: 'from-orange-600/80 to-red-600/80',
     image: 'from-orange-500 via-red-500 to-rose-500'
   },
   {
     id: 4,
-    slug: 'defi-smart-contract-security',
-    title: 'DeFi Smart Contract Security: Best Practices and Auditing',
-    excerpt: 'Essential security practices for developing and auditing decentralized finance smart contracts on Ethereum and other blockchains.',
-    category: 'Cryptocurrency',
-    date: 'August 27, 2025',
-    readTime: 10,
+    slug: 'kubernetes-cost-optimization',
+    title: 'Cutting Kubernetes Costs by 70%: A Practical Guide',
+    excerpt: 'Real strategies that reduced our cloud spend from $2M to $600K annually through intelligent resource optimization and workload scheduling.',
+    category: 'Automation',
+    date: 'November 20, 2024',
+    readTime: 14,
+    author: 'James Ross Jr.',
     gradient: 'from-yellow-600/80 to-amber-600/80',
     image: 'from-yellow-500 via-amber-500 to-orange-500'
   },
   {
     id: 5,
-    slug: 'terraform-github-actions-automation',
-    title: 'Automating Infrastructure with Terraform and GitHub Actions',
-    excerpt: 'Set up complete infrastructure automation pipelines using Terraform, GitHub Actions, and cloud-native tools for continuous deployment.',
-    category: 'Automation',
-    date: 'August 24, 2025',
-    readTime: 9,
+    slug: 'typescript-type-system-advanced',
+    title: 'TypeScript\'s Type System: Building Type-Safe APIs at Scale',
+    excerpt: 'Advanced TypeScript patterns for building bulletproof APIs with automatic validation, type inference, and zero runtime overhead.',
+    category: 'Programming',
+    date: 'November 15, 2024',
+    readTime: 16,
+    author: 'James Ross Jr.',
     gradient: 'from-green-600/80 to-teal-600/80',
     image: 'from-green-500 via-emerald-500 to-teal-500'
   },
   {
     id: 6,
-    slug: 'fine-tuning-llms-enterprise',
-    title: 'Fine-Tuning LLMs for Domain-Specific Applications',
-    excerpt: 'Practical guide to fine-tuning large language models like LLaMA and Mistral for specialized enterprise use cases.',
-    category: 'AI & ML',
-    date: 'August 20, 2025',
-    readTime: 14,
+    slug: 'zero-downtime-database-migrations',
+    title: 'Zero-Downtime Database Migrations at Scale',
+    excerpt: 'Strategies for migrating petabyte-scale databases without service interruption, including dual-write patterns and shadow deployments.',
+    category: 'Architecture',
+    date: 'November 8, 2024',
+    readTime: 20,
+    author: 'James Ross Jr.',
     gradient: 'from-indigo-600/80 to-purple-600/80',
     image: 'from-indigo-500 via-blue-500 to-purple-500'
   },
   {
     id: 7,
-    slug: 'event-driven-kafka-microservices',
-    title: 'Event-Driven Architecture with Apache Kafka and Microservices',
-    excerpt: 'Design patterns and implementation strategies for building robust event-driven systems using Kafka and microservices.',
-    category: 'Architecture',
-    date: 'August 17, 2025',
-    readTime: 11,
+    slug: 'rust-webassembly-performance',
+    title: 'Rust + WebAssembly: 10x Performance Gains in the Browser',
+    excerpt: 'How we achieved near-native performance in web applications by strategically replacing JavaScript hotpaths with Rust-compiled WebAssembly.',
+    category: 'Programming',
+    date: 'October 30, 2024',
+    readTime: 13,
+    author: 'James Ross Jr.',
     gradient: 'from-pink-600/80 to-rose-600/80',
     image: 'from-pink-500 via-rose-500 to-red-500'
   },
   {
     id: 8,
-    slug: 'advanced-typescript-patterns',
-    title: 'Advanced TypeScript Patterns for Large-Scale Applications',
-    excerpt: 'Master advanced TypeScript patterns including conditional types, mapped types, and template literal types for enterprise development.',
-    category: 'Programming',
-    date: 'August 14, 2025',
-    readTime: 13,
+    slug: 'platform-engineering-devops-evolution',
+    title: 'Platform Engineering: The Evolution Beyond DevOps',
+    excerpt: 'Why platform engineering is replacing traditional DevOps and how to build internal developer platforms that actually improve productivity.',
+    category: 'Architecture',
+    date: 'October 22, 2024',
+    readTime: 15,
+    author: 'James Ross Jr.',
     gradient: 'from-blue-600/80 to-indigo-600/80',
     image: 'from-blue-500 via-indigo-500 to-violet-500'
   },
@@ -437,6 +445,75 @@ const filteredPosts = computed(() => {
 
 // Article content (simplified for modal - you can expand this)
 const articleContents = {
+  'microservices-to-monolith-when-why': `
+    <h2>The Microservices Hangover</h2>
+    <p>After years of breaking apart monoliths into microservices, many organizations are discovering that the promised land of infinite scalability and team autonomy comes with a hefty price tag. Network latency, distributed transactions, and operational complexity have led some teams to reconsider their architecture.</p>
+    
+    <h2>When Microservices Become a Burden</h2>
+    <p>In my experience leading architecture transformations at scale, I've identified several red flags that indicate microservices might be hurting more than helping:</p>
+    <ul>
+      <li><strong>Velocity Decline:</strong> When adding a simple feature requires coordinating across 5+ teams and services</li>
+      <li><strong>Debugging Nightmares:</strong> When engineers spend more time tracing requests across services than fixing bugs</li>
+      <li><strong>Over-Engineering:</strong> When you have more microservices than engineers to maintain them</li>
+      <li><strong>Data Consistency Issues:</strong> When distributed transactions become your daily debugging routine</li>
+    </ul>
+    
+    <h2>The Modular Monolith Approach</h2>
+    <p>The solution isn't necessarily going back to a big ball of mud. Modern modular monoliths combine the simplicity of a single deployable unit with the organizational benefits of clear boundaries. We recently consolidated 47 microservices into 3 well-architected services, reducing our AWS bill by 68% and deployment time from 45 minutes to 3 minutes.</p>
+    
+    <h2>Implementation Strategy</h2>
+    <p>Start by identifying service boundaries based on data ownership rather than team structure. Use domain-driven design principles to create clear module boundaries within your monolith. Implement a strangler fig pattern to gradually migrate services, starting with the chatty ones that cause the most network overhead.</p>
+  `,
+  'ai-code-review-automation': `
+    <h2>Beyond Static Analysis</h2>
+    <p>Traditional code review tools like ESLint and SonarQube catch syntax errors and known anti-patterns, but they miss the subtle bugs that experienced engineers spot: race conditions, business logic errors, and architectural violations. By leveraging LLMs, we can build systems that understand code intent, not just syntax.</p>
+    
+    <h2>Architecture of an AI Code Reviewer</h2>
+    <p>Our AI code review system consists of three layers: Context Gathering (pulls in related code, documentation, and historical changes), Analysis Engine (fine-tuned LLM that understands your codebase's patterns), and Feedback Loop (learns from accepted/rejected suggestions to improve over time).</p>
+    
+    <h2>Real-World Results</h2>
+    <p>After 6 months in production, our AI reviewer has caught 340+ bugs that passed human review, including a critical race condition in our payment processing that could have cost millions. It's reduced review time by 60% while improving code quality metrics across the board.</p>
+  `,
+  'real-time-data-streaming-architecture': `
+    <h2>Processing 100 Billion Events Daily</h2>
+    <p>When you're dealing with 100+ billion events per day, traditional batch processing falls apart. Real-time streaming isn't just nice to have—it's essential for fraud detection, personalization, and operational monitoring. Here's how we built a streaming architecture that processes 1.2 million events per second with sub-100ms latency.</p>
+    
+    <h2>The Architecture Stack</h2>
+    <p>Our streaming pipeline uses Apache Kafka for ingestion (150+ topics, 3PB daily), Apache Flink for stream processing (complex event processing and windowed aggregations), and ClickHouse for real-time analytics (handling 50M queries daily with p99 < 100ms).</p>
+    
+    <h2>Lessons Learned at Scale</h2>
+    <p>Partitioning strategy is everything—get it wrong and you'll have hot partitions killing throughput. Schema evolution must be planned from day one. Back-pressure handling needs to be implemented at every layer. And most importantly: invest in observability early, or you'll be flying blind when things go wrong.</p>
+  `,
+  'kubernetes-cost-optimization': `
+    <h2>The $1.4M Wake-Up Call</h2>
+    <p>Our monthly AWS bill hit $167,000 for Kubernetes alone. After three months of optimization, we cut it to $50,000 without sacrificing performance. Here's exactly how we did it, with real numbers and configurations you can apply today.</p>
+    
+    <h2>Quick Wins That Saved 40%</h2>
+    <p>Start with right-sizing: we found 70% of our pods were over-provisioned by 3-5x. Implement cluster autoscaling with proper node pool configuration. Use spot instances for non-critical workloads (saved us $30K/month alone). Enable Horizontal Pod Autoscaling with custom metrics based on actual usage patterns.</p>
+    
+    <h2>Advanced Optimizations</h2>
+    <p>Implement pod disruption budgets to safely use spot instances. Use Karpenter instead of Cluster Autoscaler for 60% faster scale-down. Implement init containers for resource-intensive startup tasks. Use ephemeral storage for temporary data instead of EBS volumes.</p>
+  `,
+  'typescript-type-system-advanced': `
+    <h2>Type-Safe APIs Without Runtime Overhead</h2>
+    <p>TypeScript's type system is Turing complete, which means we can build incredibly sophisticated type-level programs. I'll show you how to create APIs where invalid states are literally impossible to represent, catching entire categories of bugs at compile time with zero runtime cost.</p>
+    
+    <h2>Practical Type-Level Programming</h2>
+    <p>We built a type-safe SQL query builder that prevents SQL injection by construction, validates table relationships at compile time, and provides perfect IntelliSense for your entire database schema. Here's a taste of what's possible with advanced TypeScript.</p>
+    
+    <h2>Performance Implications</h2>
+    <p>Contrary to popular belief, complex TypeScript types have zero runtime overhead—they're completely erased during compilation. However, they can impact IDE performance and build times. I'll show you techniques to maintain sub-second type checking even with complex type systems.</p>
+  `,
+  'zero-downtime-database-migrations': `
+    <h2>Migrating Petabytes Without Downtime</h2>
+    <p>We successfully migrated 3.2PB of data from MongoDB to PostgreSQL with zero downtime and zero data loss. This is the story of how we did it, including the failures, the near-disasters, and the techniques that ultimately worked.</p>
+    
+    <h2>The Dual-Write Pattern</h2>
+    <p>The key to zero-downtime migration is the dual-write pattern: write to both databases, migrate historical data in the background, verify data consistency continuously, and implement automatic fallback mechanisms. Each step has pitfalls that can cause data loss or corruption if not handled correctly.</p>
+    
+    <h2>Validation and Rollback Strategy</h2>
+    <p>We implemented continuous validation using checksums and statistical sampling, catching three critical bugs before they affected production. Our rollback strategy included point-in-time recovery markers, bidirectional replication for instant fallback, and comprehensive audit logging for forensic analysis.</p>
+  `,
   'scalable-ai-pipelines-kubernetes-ray': `
     <h2>Introduction to Ray and Kubernetes</h2>
     <p>Building scalable AI pipelines requires careful orchestration of compute resources. Ray provides a simple, universal API for building distributed applications, while Kubernetes handles container orchestration at scale.</p>
