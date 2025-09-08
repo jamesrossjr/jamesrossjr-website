@@ -1,26 +1,90 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#000000"/>
+  
+  <!-- Grid pattern background -->
   <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#1e40af" stroke-width="1" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect width="512" height="512" fill="url(#grid)"/>
+  
+  <!-- Main grid lines -->
+  <g stroke="#1e40af" stroke-width="1" opacity="0.3">
+    <line x1="128" y1="0" x2="128" y2="512"/>
+    <line x1="256" y1="0" x2="256" y2="512"/>
+    <line x1="384" y1="0" x2="384" y2="512"/>
+    <line x1="0" y1="128" x2="512" y2="128"/>
+    <line x1="0" y1="256" x2="512" y2="256"/>
+    <line x1="0" y1="384" x2="512" y2="384"/>
+  </g>
+  
+  <!-- Glowing nodes -->
+  <g>
+    <!-- Corner nodes -->
+    <circle cx="128" cy="128" r="16" fill="#3b82f6" opacity="0.8">
+      <animate attributeName="r" values="16;20;16" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="384" cy="128" r="16" fill="#6366f1" opacity="0.7">
+      <animate attributeName="r" values="16;18;16" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;0.9;0.7" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="128" cy="384" r="16" fill="#9333ea" opacity="0.6">
+      <animate attributeName="r" values="16;22;16" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="384" cy="384" r="16" fill="#8b5cf6" opacity="0.9">
+      <animate attributeName="r" values="16;19;16" dur="3.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Center node (larger) -->
+    <circle cx="256" cy="256" r="32" fill="#6366f1" opacity="1">
+      <animate attributeName="r" values="32;40;32" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Mid-point nodes -->
+    <circle cx="256" cy="128" r="12" fill="#3b82f6" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.8;0.5" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="128" cy="256" r="12" fill="#8b5cf6" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.9;0.5" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="384" cy="256" r="12" fill="#9333ea" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.7;0.5" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="256" cy="384" r="12" fill="#6366f1" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Connection lines -->
+  <g stroke-width="2" opacity="0.4">
+    <line x1="128" y1="128" x2="256" y2="256" stroke="url(#grad1)"/>
+    <line x1="384" y1="128" x2="256" y2="256" stroke="url(#grad2)"/>
+    <line x1="128" y1="384" x2="256" y2="256" stroke="url(#grad3)"/>
+    <line x1="384" y1="384" x2="256" y2="256" stroke="url(#grad4)"/>
+  </g>
+  
+  <!-- Gradients for lines -->
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#6366f1;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#9333ea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0.3" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0.3" />
+    </linearGradient>
+    <linearGradient id="grad3" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#9333ea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0.3" />
+    </linearGradient>
+    <linearGradient id="grad4" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0.3" />
     </linearGradient>
   </defs>
-  <!-- Modern geometric background -->
-  <rect x="0" y="0" width="512" height="512" rx="100" fill="#000000"/>
-  <rect x="40" y="40" width="432" height="432" rx="80" fill="url(#grad)"/>
-  
-  <!-- JR Monogram in modern style -->
-  <g fill="white">
-    <!-- J -->
-    <path d="M 140 140 L 140 320 Q 140 372 192 372 L 220 372 L 220 320 L 192 320 Q 192 320 192 320 L 192 140 Z" fill="white" opacity="0.95"/>
-    <!-- R -->
-    <path d="M 280 140 L 280 372 L 332 372 L 332 260 L 360 260 L 420 372 L 480 372 L 400 240 Q 420 230 420 200 L 420 180 Q 420 140 380 140 L 280 140 Z M 332 192 L 360 192 Q 368 192 368 200 L 368 208 Q 368 216 360 216 L 332 216 Z" fill="white" opacity="0.95"/>
-  </g>
-  
-  <!-- Subtle grid overlay -->
-  <g opacity="0.1">
-    <line x1="256" y1="0" x2="256" y2="512" stroke="white" stroke-width="1"/>
-    <line x1="0" y1="256" x2="512" y2="256" stroke="white" stroke-width="1"/>
-  </g>
 </svg>
