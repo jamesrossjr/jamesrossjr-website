@@ -50,9 +50,8 @@ export default defineNuxtConfig({
     }
   },
 
-  nitro: {
-    preset: 'vercel-edge'
-  },
+  // Nitro will auto-detect Netlify deployment
+  // Remove preset to allow auto-detection
 
   runtimeConfig: {
     // Private keys (only available on server-side)
