@@ -2204,17 +2204,6 @@ jobs:
 
 ### 8.3 Environment Configuration
 
-```bash
-# .env.example
-# Database
-DATABASE_URL="postgresql://username:password@localhost:5432/jamesross_portfolio"
-REDIS_URL="redis://localhost:6379"
-
-# Supabase
-SUPABASE_URL="https://your-project.supabase.co"
-SUPABASE_ANON_KEY="your-anon-key"
-SUPABASE_SERVICE_KEY="your-service-key"
-
 # Email
 EMAIL_API_KEY="your-email-service-key"
-EMAIL_USER="noreply@
+EMAIL_USER="james@jamesrossjr.com

@@ -49,6 +49,9 @@ onMounted(() => {
   // Handle mouse wheel for horizontal scrolling - attach to container and window
   if (scrollContainer.value) {
     scrollContainer.value.addEventListener('wheel', handleWheel, { passive: false })
+    // Add touch events for mobile
+    scrollContainer.value.addEventListener('touchstart', handleTouchStart, { passive: true })
+    scrollContainer.value.addEventListener('touchend', handleTouchEnd, { passive: false })
   }
   window.addEventListener('wheel', handleWheel, { passive: false })
   
@@ -61,6 +64,8 @@ onUnmounted(() => {
   window.removeEventListener('wheel', handleWheel)
   if (scrollContainer.value) {
     scrollContainer.value.removeEventListener('wheel', handleWheel)
+    scrollContainer.value.removeEventListener('touchstart', handleTouchStart)
+    scrollContainer.value.removeEventListener('touchend', handleTouchEnd)
   }
 })
 
@@ -95,12 +100,35 @@ const handleKeydown = (e: KeyboardEvent) => {
 
 // Add debounce flag to prevent rapid scrolling
 let isScrolling = false
+let touchStartX = 0
+let touchStartY = 0
 
 const handleWheel = (e: WheelEvent) => {
+  if (!scrollContainer.value || isScrolling) return
+  
+  // Check if the target is a scrollable element
+  const target = e.target as HTMLElement
+  const scrollableParent = target.closest('.services-scroll, .overflow-y-auto')
+  
+  if (scrollableParent) {
+    const scrollTop = scrollableParent.scrollTop
+    const scrollHeight = scrollableParent.scrollHeight
+    const clientHeight = scrollableParent.clientHeight
+    const isAtTop = scrollTop === 0
+    const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 1
+    
+    // If scrolling within a scrollable element and not at boundaries, let it scroll naturally
+    if (e.deltaY > 0 && !isAtBottom) {
+      return // Allow natural scrolling down
+    }
+    if (e.deltaY < 0 && !isAtTop) {
+      return // Allow natural scrolling up
+    }
+  }
+  
+  // Prevent default only when we're going to change sections
   e.preventDefault()
   e.stopPropagation()
-  
-  if (!scrollContainer.value || isScrolling) return
   
   // Get scroll direction
   const deltaY = e.deltaY
@@ -127,6 +155,41 @@ const handleWheel = (e: WheelEvent) => {
     setTimeout(() => {
       isScrolling = false
     }, 600) // Adjust this timing based on your scroll animation duration
+  }
+}
+
+const handleTouchStart = (e: TouchEvent) => {
+  touchStartX = e.touches[0].clientX
+  touchStartY = e.touches[0].clientY
+}
+
+const handleTouchEnd = (e: TouchEvent) => {
+  if (!scrollContainer.value || isScrolling) return
+  
+  const touchEndX = e.changedTouches[0].clientX
+  const touchEndY = e.changedTouches[0].clientY
+  
+  const deltaX = touchStartX - touchEndX
+  const deltaY = touchStartY - touchEndY
+  
+  // Determine if this is primarily a horizontal swipe
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    // Minimum swipe distance
+    if (Math.abs(deltaX) > 50) {
+      isScrolling = true
+      
+      if (deltaX > 0) {
+        // Swiped left - go to next section
+        scrollNext()
+      } else {
+        // Swiped right - go to previous section
+        scrollPrev()
+      }
+      
+      setTimeout(() => {
+        isScrolling = false
+      }, 600)
+    }
   }
 }
 
