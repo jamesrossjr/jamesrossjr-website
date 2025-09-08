@@ -155,14 +155,6 @@
                     </svg>
                   </button>
                   <button 
-                    @click="shareOnTwitter(selectedArticle)"
-                    class="p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors"
-                  >
-                    <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
-                    </svg>
-                  </button>
-                  <button 
                     @click="copyLink(selectedArticle)"
                     class="p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors"
                   >
@@ -511,12 +503,6 @@ const shareOnLinkedIn = (post: any) => {
   window.open(linkedInUrl, '_blank')
 }
 
-const shareOnTwitter = (post: any) => {
-  const url = `https://jamesrossjr.com/blog/${post.slug}`
-  const text = `Check out this article: ${post.title}`
-  const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`
-  window.open(twitterUrl, '_blank')
-}
 
 const copyLink = (post: any) => {
   const url = `https://jamesrossjr.com/blog/${post.slug}`
