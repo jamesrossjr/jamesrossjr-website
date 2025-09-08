@@ -1,0 +1,252 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Blog Models
+model BlogPost {
+  id            String       @id @default(cuid())
+  slug          String       @unique
+  title         String
+  excerpt       String
+  content       String       @db.Text
+  coverImage    String?
+  category      String
+  tags          String[]
+  published     Boolean      @default(false)
+  publishedAt   DateTime?
+  readTime      Int          // in minutes
+  views         Int          @default(0)
+  likes         Int          @default(0)
+  
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  comments      Comment[]
+  
+  @@index([slug])
+  @@index([category])
+  @@index([published, publishedAt])
+}
+
+model Comment {
+  id            String       @id @default(cuid())
+  name          String
+  email         String
+  content       String       @db.Text
+  approved      Boolean      @default(false)
+  
+  postId        String
+  post          BlogPost     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  createdAt     DateTime     @default(now())
+  
+  @@index([postId])
+}
+
+// Portfolio Models
+model CaseStudy {
+  id            String       @id @default(cuid())
+  slug          String       @unique
+  title         String
+  subtitle      String
+  description   String       @db.Text
+  coverImage    String?
+  category      String       // e.g., "System Architecture", "Cloud Migration", etc.
+  client        String
+  industry      String
+  duration      String       // e.g., "6 months"
+  team          String[]     // e.g., ["5 engineers", "2 designers"]
+  
+  // Challenge & Solution
+  challenge     String       @db.Text
+  approach      String       @db.Text
+  solution      String       @db.Text
+  
+  // Results & Metrics
+  metrics       Json         // Array of {label, value, improvement}
+  testimonial   String?      @db.Text
+  testimonialAuthor String?
+  testimonialRole String?
+  
+  // Technical Details
+  technologies  String[]
+  architecture  String?      @db.Text
+  diagrams      String[]     // URLs to architecture diagrams
+  
+  // Media
+  images        String[]
+  videoUrl      String?
+  
+  featured      Boolean      @default(false)
+  published     Boolean      @default(false)
+  publishedAt   DateTime?
+  
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  @@index([slug])
+  @@index([category])
+  @@index([featured])
+}
+
+// Contact & Lead Models
+model Contact {
+  id            String       @id @default(cuid())
+  name          String
+  email         String
+  company       String?
+  role          String?
+  phone         String?
+  
+  subject       String
+  message       String       @db.Text
+  
+  projectType   String?      // "New Development", "Migration", "Consulting", etc.
+  budget        String?      // "< $50k", "$50k-$100k", etc.
+  timeline      String?      // "Immediate", "1-3 months", etc.
+  
+  source        String?      // "website", "referral", "linkedin", etc.
+  referrer      String?
+  
+  status        ContactStatus @default(NEW)
+  notes         String?      @db.Text
+  
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  @@index([email])
+  @@index([status])
+}
+
+enum ContactStatus {
+  NEW
+  CONTACTED
+  IN_DISCUSSION
+  QUALIFIED
+  CONVERTED
+  ARCHIVED
+}
+
+// Newsletter Model
+model Newsletter {
+  id            String       @id @default(cuid())
+  email         String       @unique
+  name          String?
+  confirmed     Boolean      @default(false)
+  confirmToken  String?      @unique
+  
+  interests     String[]     // ["architecture", "cloud", "ai", etc.]
+  
+  subscribedAt  DateTime     @default(now())
+  unsubscribedAt DateTime?
+  
+  @@index([email])
+  @@index([confirmed])
+}
+
+// Service Models
+model Service {
+  id            String       @id @default(cuid())
+  slug          String       @unique
+  name          String
+  shortDesc     String
+  description   String       @db.Text
+  icon          String?
+  
+  features      String[]
+  benefits      String[]
+  deliverables  String[]
+  
+  // Pricing tiers
+  pricingTiers  Json?        // Array of {name, price, features, highlighted}
+  
+  order         Int          @default(0)
+  active        Boolean      @default(true)
+  
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  @@index([slug])
+  @@index([active])
+}
+
+// Testimonial Model
+model Testimonial {
+  id            String       @id @default(cuid())
+  author        String
+  role          String
+  company       String
+  companyLogo   String?
+  avatar        String?
+  
+  content       String       @db.Text
+  rating        Int?         // 1-5
+  
+  projectType   String?
+  featured      Boolean      @default(false)
+  published     Boolean      @default(true)
+  
+  createdAt     DateTime     @default(now())
+  
+  @@index([featured])
+  @@index([published])
+}
+
+// Skills & Technologies
+model Skill {
+  id            String       @id @default(cuid())
+  name          String       @unique
+  category      String       // "Language", "Framework", "Tool", "Cloud", etc.
+  level         Int          // 1-5 proficiency
+  yearsExp      Int
+  icon          String?
+  
+  projects      Int          @default(0) // Number of projects using this skill
+  featured      Boolean      @default(false)
+  
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  @@index([category])
+  @@index([featured])
+}
+
+// Analytics & Tracking
+model PageView {
+  id            String       @id @default(cuid())
+  path          String
+  referrer      String?
+  userAgent     String?
+  ip            String?
+  country       String?
+  device        String?      // "mobile", "tablet", "desktop"
+  
+  sessionId     String?
+  userId        String?      // For returning visitors
+  
+  createdAt     DateTime     @default(now())
+  
+  @@index([path])
+  @@index([sessionId])
+  @@index([createdAt])
+}
+
+// Admin Settings
+model Setting {
+  id            String       @id @default(cuid())
+  key           String       @unique
+  value         Json
+  description   String?
+  
+  updatedAt     DateTime     @updatedAt
+  
+  @@index([key])
+}
