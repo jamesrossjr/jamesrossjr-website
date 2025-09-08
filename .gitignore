@@ -21,6 +21,10 @@ logs
 # Vercel
 .vercel
 
+# Netlify
+.netlify
+dist
+
 # Local env files
 .env
 .env.*

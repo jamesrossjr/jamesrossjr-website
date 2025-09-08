@@ -50,8 +50,9 @@ export default defineNuxtConfig({
     }
   },
 
-  // Nitro will auto-detect Netlify deployment
-  // Remove preset to allow auto-detection
+  nitro: {
+    preset: 'netlify'
+  },
 
   runtimeConfig: {
     // Private keys (only available on server-side)
