@@ -4502,5 +4502,1033 @@ contract GasOptimized {
     <p>The future of DeFi lies in addressing current limitations—high gas costs, complexity, security risks—while expanding to new use cases and user bases. With continued innovation in scaling, interoperability, and regulatory frameworks, DeFi has the potential to reshape the global financial system.</p>
   `,
 
+  'graphql-federation-microservices': `
+    <h2>Introduction: Scaling GraphQL Across Teams</h2>
+    <p>As organizations grow and adopt microservices architectures, the challenge of providing a unified API while maintaining team autonomy becomes critical. GraphQL Federation emerges as the solution, enabling multiple teams to contribute to a single, cohesive GraphQL API. This comprehensive guide explores how to build, deploy, and manage federated GraphQL architectures that scale across hundreds of services and thousands of developers.</p>
+    
+    <p>GraphQL Federation represents a paradigm shift from traditional API gateway patterns. Instead of a centralized team managing all API definitions, federation allows domain teams to own their schemas while automatically composing them into a unified supergraph. This approach combines the benefits of microservices—team autonomy, independent deployment, technology flexibility—with the developer experience of a single, well-typed API.</p>
+
+    <h2>Understanding GraphQL Federation</h2>
+    <p>GraphQL Federation is a specification and set of tools that enable the composition of multiple GraphQL services into a single, unified graph. Unlike schema stitching, federation provides a declarative approach where services can reference and extend types from other services without tight coupling.</p>
+    
+    <h3>Core Concepts</h3>
+    <ul>
+      <li><strong>Subgraphs:</strong> Individual GraphQL services that own specific domains</li>
+      <li><strong>Supergraph:</strong> The composed schema combining all subgraphs</li>
+      <li><strong>Gateway:</strong> The router that plans and executes queries across subgraphs</li>
+      <li><strong>Entities:</strong> Types that can be defined and extended across multiple services</li>
+      <li><strong>Federation Directives:</strong> Special directives that enable cross-service relationships</li>
+    </ul>
+
+    <h3>Federation Architecture</h3>
+    <pre><code>// Product Service Subgraph
+const typeDefs = gql\`
+  type Product @key(fields: "id") {
+    id: ID!
+    name: String!
+    price: Float!
+    description: String
+    category: Category!
+  }
+  
+  type Category {
+    id: ID!
+    name: String!
+    products: [Product!]!
+  }
+  
+  extend type Query {
+    product(id: ID!): Product
+    products(filter: ProductFilter): [Product!]!
+    categories: [Category!]!
+  }
+  
+  input ProductFilter {
+    categoryId: ID
+    minPrice: Float
+    maxPrice: Float
+    searchTerm: String
+  }
+\`;
+
+// User Service Subgraph
+const userTypeDefs = gql\`
+  type User @key(fields: "id") {
+    id: ID!
+    email: String!
+    name: String!
+    createdAt: DateTime!
+    orders: [Order!]! @external
+  }
+  
+  extend type Query {
+    me: User
+    user(id: ID!): User
+  }
+\`;
+
+// Order Service Subgraph
+const orderTypeDefs = gql\`
+  type Order @key(fields: "id") {
+    id: ID!
+    user: User!
+    items: [OrderItem!]!
+    total: Float!
+    status: OrderStatus!
+    createdAt: DateTime!
+  }
+  
+  type OrderItem {
+    product: Product!
+    quantity: Int!
+    price: Float!
+  }
+  
+  enum OrderStatus {
+    PENDING
+    PROCESSING
+    SHIPPED
+    DELIVERED
+    CANCELLED
+  }
+  
+  extend type User @key(fields: "id") {
+    id: ID! @external
+    orders: [Order!]!
+  }
+  
+  extend type Product @key(fields: "id") {
+    id: ID! @external
+    orderCount: Int!
+  }
+\`;</code></pre>
+
+    <h2>Implementing Federation with Apollo</h2>
+    <p>Apollo Federation provides the most mature implementation of the federation specification. Let's build a complete federated architecture:</p>
+    
+    <h3>Setting Up Subgraph Services</h3>
+    <pre><code>// Product Service Implementation
+import { ApolloServer } from '@apollo/server';
+import { buildSubgraphSchema } from '@apollo/subgraph';
+import { expressMiddleware } from '@apollo/server/express4';
+
+const resolvers = {
+  Query: {
+    product: async (_, { id }, { dataSources }) => {
+      return dataSources.productAPI.getProduct(id);
+    },
+    products: async (_, { filter }, { dataSources }) => {
+      return dataSources.productAPI.getProducts(filter);
+    },
+    categories: async (_, __, { dataSources }) => {
+      return dataSources.productAPI.getCategories();
+    }
+  },
+  
+  Product: {
+    __resolveReference: async (reference, { dataSources }) => {
+      return dataSources.productAPI.getProduct(reference.id);
+    },
+    category: async (parent, _, { dataSources }) => {
+      return dataSources.categoryAPI.getCategory(parent.categoryId);
+    }
+  },
+  
+  Category: {
+    products: async (parent, _, { dataSources }) => {
+      return dataSources.productAPI.getProductsByCategory(parent.id);
+    }
+  }
+};
+
+const server = new ApolloServer({
+  schema: buildSubgraphSchema([{ typeDefs, resolvers }]),
+  dataSources: () => ({
+    productAPI: new ProductAPI(),
+    categoryAPI: new CategoryAPI()
+  }),
+  plugins: [
+    ApolloServerPluginInlineTrace(),
+    ApolloServerPluginUsageReporting({
+      sendVariableValues: { all: true },
+      sendHeaders: { all: true }
+    })
+  ]
+});
+
+// Express setup
+const app = express();
+app.use(
+  '/graphql',
+  cors(),
+  express.json(),
+  expressMiddleware(server, {
+    context: async ({ req }) => ({
+      token: req.headers.authorization,
+      userId: getUserIdFromToken(req.headers.authorization)
+    })
+  })
+);
+
+app.listen(4001, () => {
+  console.log('Product service running on http://localhost:4001/graphql');
+});</code></pre>
+
+    <h3>Implementing the Gateway</h3>
+    <pre><code>// Apollo Gateway Configuration
+import { ApolloGateway, IntrospectAndCompose } from '@apollo/gateway';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+
+// Development configuration with introspection
+const gateway = new ApolloGateway({
+  supergraphSdl: new IntrospectAndCompose({
+    subgraphs: [
+      { name: 'products', url: 'http://localhost:4001/graphql' },
+      { name: 'users', url: 'http://localhost:4002/graphql' },
+      { name: 'orders', url: 'http://localhost:4003/graphql' },
+      { name: 'inventory', url: 'http://localhost:4004/graphql' },
+      { name: 'reviews', url: 'http://localhost:4005/graphql' }
+    ],
+    pollIntervalInMs: 10000 // Poll for schema changes
+  }),
+  
+  // Add custom plugins
+  buildService({ name, url }) {
+    return new RemoteGraphQLDataSource({
+      url,
+      willSendRequest({ request, context }) {
+        // Forward authentication headers
+        request.http.headers.set('authorization', context.token);
+        request.http.headers.set('x-user-id', context.userId);
+        request.http.headers.set('x-correlation-id', context.correlationId);
+      },
+      
+      didReceiveResponse({ response, request, context }) {
+        // Log response metrics
+        const tracing = response.extensions?.tracing;
+        if (tracing) {
+          metrics.recordLatency(name, tracing.duration);
+        }
+      },
+      
+      didEncounterError({ error, request, response }) {
+        // Error handling and logging
+        logger.error('Subgraph error', {
+          service: name,
+          error: error.message,
+          request: request.query
+        });
+      }
+    });
+  }
+});
+
+// Production configuration with managed federation
+const productionGateway = new ApolloGateway({
+  supergraphSdl: new SupergraphSdlManager({
+    apiKey: process.env.APOLLO_KEY,
+    graphRef: process.env.APOLLO_GRAPH_REF
+  }),
+  
+  // Advanced features
+  experimental_pollInterval: 10000,
+  serviceHealthCheck: true,
+  
+  // Query planning optimizations
+  queryPlannerConfig: {
+    incremental: true,
+    debugPrintQueryPlan: process.env.NODE_ENV === 'development'
+  }
+});
+
+const server = new ApolloServer({
+  gateway,
+  
+  plugins: [
+    // Caching plugin
+    responseCachePlugin({
+      sessionId: (context) => context.userId || 'anonymous',
+      
+      shouldReadFromCache: (context) => {
+        // Don't cache mutations
+        return context.request.http.method === 'GET';
+      },
+      
+      shouldWriteToCache: (context) => {
+        // Only cache successful responses
+        return !context.response.errors;
+      },
+      
+      extraCacheKeyData: (context) => {
+        // Include user role in cache key
+        return context.userRole || 'guest';
+      }
+    }),
+    
+    // Performance monitoring
+    ApolloServerPluginUsageReporting({
+      sendVariableValues: { all: true },
+      sendHeaders: { all: true },
+      generateClientInfo: ({ request }) => {
+        const headers = request.http.headers;
+        return {
+          clientName: headers.get('apollo-client-name'),
+          clientVersion: headers.get('apollo-client-version')
+        };
+      }
+    })
+  ]
+});</code></pre>
+
+    <h2>Advanced Federation Patterns</h2>
+    
+    <h3>Entity Resolution and References</h3>
+    <pre><code>// Advanced entity resolution with data loaders
+class ProductResolver {
+  constructor() {
+    // Use DataLoader for batch loading
+    this.loader = new DataLoader(async (ids) => {
+      const products = await db.products.findMany({
+        where: { id: { in: ids } }
+      });
+      
+      // Map results back to requested order
+      const productMap = new Map(products.map(p => [p.id, p]));
+      return ids.map(id => productMap.get(id));
+    });
+  }
+  
+  // Resolve reference from other services
+  async __resolveReference(reference, context) {
+    // Handle different reference patterns
+    if (reference.id) {
+      return this.loader.load(reference.id);
+    }
+    
+    if (reference.sku) {
+      return db.products.findUnique({ where: { sku: reference.sku } });
+    }
+    
+    if (reference.slug) {
+      return db.products.findUnique({ where: { slug: reference.slug } });
+    }
+    
+    throw new Error('Invalid product reference');
+  }
+  
+  // Extend with computed fields
+  async reviews(product, args, context) {
+    // Federated field from reviews service
+    return context.dataSources.reviewsAPI.getProductReviews(product.id);
+  }
+  
+  async inventory(product, args, context) {
+    // Real-time inventory from inventory service
+    return context.dataSources.inventoryAPI.getStock(product.id);
+  }
+  
+  async pricing(product, args, context) {
+    // Dynamic pricing from pricing service
+    const basePrice = product.price;
+    const userTier = context.user?.tier || 'guest';
+    
+    return context.dataSources.pricingAPI.calculatePrice({
+      productId: product.id,
+      basePrice,
+      userTier,
+      quantity: args.quantity || 1
+    });
+  }
+}</code></pre>
+
+    <h3>Schema Composition and Extensions</h3>
+    <pre><code>// Extending entities across services
+const reviewsTypeDefs = gql\`
+  extend type Product @key(fields: "id") {
+    id: ID! @external
+    reviews: [Review!]!
+    averageRating: Float!
+    reviewCount: Int!
+  }
+  
+  type Review @key(fields: "id") {
+    id: ID!
+    product: Product!
+    user: User!
+    rating: Int!
+    title: String!
+    comment: String!
+    helpful: Int!
+    verified: Boolean!
+    createdAt: DateTime!
+    
+    # Computed fields
+    sentiment: Sentiment!
+    highlights: [String!]!
+  }
+  
+  type Sentiment {
+    score: Float!
+    magnitude: Float!
+    category: SentimentCategory!
+  }
+  
+  enum SentimentCategory {
+    POSITIVE
+    NEUTRAL
+    NEGATIVE
+  }
+  
+  extend type User @key(fields: "id") {
+    id: ID! @external
+    reviews: [Review!]!
+    reviewStats: ReviewStats!
+  }
+  
+  type ReviewStats {
+    totalReviews: Int!
+    averageRating: Float!
+    helpfulVotes: Int!
+    verifiedPurchases: Int!
+  }
+  
+  extend type Query {
+    review(id: ID!): Review
+    reviews(filter: ReviewFilter): ReviewConnection!
+  }
+  
+  input ReviewFilter {
+    productId: ID
+    userId: ID
+    minRating: Int
+    maxRating: Int
+    verified: Boolean
+    sentiment: SentimentCategory
+  }
+  
+  type ReviewConnection {
+    edges: [ReviewEdge!]!
+    pageInfo: PageInfo!
+    totalCount: Int!
+  }
+\`;
+
+// Resolver with federation support
+const reviewResolvers = {
+  Product: {
+    reviews: async (product, args, context) => {
+      return context.dataSources.reviewDB.getProductReviews(product.id);
+    },
+    
+    averageRating: async (product, _, context) => {
+      const stats = await context.dataSources.reviewDB.getProductStats(product.id);
+      return stats.averageRating;
+    },
+    
+    reviewCount: async (product, _, context) => {
+      const stats = await context.dataSources.reviewDB.getProductStats(product.id);
+      return stats.count;
+    }
+  },
+  
+  Review: {
+    sentiment: async (review, _, context) => {
+      // Use ML service for sentiment analysis
+      return context.dataSources.sentimentAPI.analyze(review.comment);
+    },
+    
+    highlights: async (review, _, context) => {
+      // Extract key phrases
+      return context.dataSources.nlpAPI.extractKeyPhrases(review.comment);
+    }
+  }
+};</code></pre>
+
+    <h2>Performance Optimization</h2>
+    
+    <h3>Query Planning and Optimization</h3>
+    <pre><code>// Custom directive for query optimization
+const optimizationDirectives = gql\`
+  directive @defer on FRAGMENT_SPREAD | INLINE_FRAGMENT
+  directive @stream(initialCount: Int = 0) on FIELD
+  directive @cache(ttl: Int) on FIELD_DEFINITION
+  directive @complexity(value: Int!, multipliers: [String!]) on FIELD_DEFINITION
+\`;
+
+// Implement query complexity analysis
+class ComplexityPlugin {
+  async requestDidStart() {
+    return {
+      async didResolveOperation(requestContext) {
+        const complexity = calculateQueryComplexity(
+          requestContext.document,
+          requestContext.schema,
+          requestContext.request.variables
+        );
+        
+        if (complexity > MAX_QUERY_COMPLEXITY) {
+          throw new Error(\`Query too complex: \${complexity} > \${MAX_QUERY_COMPLEXITY}\`);
+        }
+        
+        // Add complexity to metrics
+        metrics.recordQueryComplexity(complexity);
+      }
+    };
+  }
+}
+
+// Implement persistent queries for performance
+const persistedQueries = new Map([
+  ['GetProduct', \`
+    query GetProduct($id: ID!) {
+      product(id: $id) {
+        id
+        name
+        price
+        description
+        category {
+          id
+          name
+        }
+        reviews(first: 5) {
+          edges {
+            node {
+              id
+              rating
+              title
+              comment
+            }
+          }
+        }
+      }
+    }
+  \`],
+  ['GetUserOrders', \`
+    query GetUserOrders($userId: ID!, $status: OrderStatus) {
+      user(id: $userId) {
+        orders(status: $status) {
+          id
+          total
+          status
+          items {
+            product {
+              id
+              name
+            }
+            quantity
+            price
+          }
+        }
+      }
+    }
+  \`]
+]);
+
+// Gateway with query optimization
+const optimizedGateway = new ApolloGateway({
+  supergraphSdl,
+  
+  // Enable query plan caching
+  experimental_approximateQueryPlanCacheSize: 500,
+  
+  // Custom fetcher with connection pooling
+  fetcher: createOptimizedFetcher({
+    timeout: 30000,
+    keepAlive: true,
+    maxSockets: 100,
+    
+    // Retry logic
+    retry: {
+      retries: 3,
+      factor: 2,
+      minTimeout: 1000,
+      maxTimeout: 10000
+    }
+  }),
+  
+  // Query deduplication
+  experimental_autoDedup: true
+});</code></pre>
+
+    <h3>Caching Strategies</h3>
+    <pre><code>// Multi-layer caching implementation
+class CacheManager {
+  constructor() {
+    // L1: In-memory cache
+    this.memoryCache = new LRU({
+      max: 1000,
+      ttl: 1000 * 60 * 5 // 5 minutes
+    });
+    
+    // L2: Redis cache
+    this.redisCache = new Redis({
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT,
+      keyPrefix: 'gql:'
+    });
+    
+    // L3: CDN cache headers
+    this.cdnTTL = {
+      public: 3600,
+      private: 300,
+      noCache: 0
+    };
+  }
+  
+  async get(key, options = {}) {
+    // Check L1 cache
+    const memoryResult = this.memoryCache.get(key);
+    if (memoryResult) {
+      metrics.incrementCacheHit('memory');
+      return memoryResult;
+    }
+    
+    // Check L2 cache
+    const redisResult = await this.redisCache.get(key);
+    if (redisResult) {
+      metrics.incrementCacheHit('redis');
+      // Populate L1
+      this.memoryCache.set(key, redisResult);
+      return JSON.parse(redisResult);
+    }
+    
+    metrics.incrementCacheMiss();
+    return null;
+  }
+  
+  async set(key, value, options = {}) {
+    const ttl = options.ttl || 300;
+    
+    // Set in both caches
+    this.memoryCache.set(key, value);
+    await this.redisCache.setex(
+      key,
+      ttl,
+      JSON.stringify(value)
+    );
+    
+    return value;
+  }
+  
+  // Invalidation patterns
+  async invalidatePattern(pattern) {
+    // Clear memory cache
+    for (const key of this.memoryCache.keys()) {
+      if (key.match(pattern)) {
+        this.memoryCache.delete(key);
+      }
+    }
+    
+    // Clear Redis cache
+    const keys = await this.redisCache.keys(\`gql:\${pattern}\`);
+    if (keys.length > 0) {
+      await this.redisCache.del(...keys);
+    }
+  }
+}
+
+// Cache directive implementation
+const cacheDirectiveTransformer = (schema) => {
+  return mapSchema(schema, {
+    [MapperKind.FIELD]: (fieldConfig) => {
+      const cacheDirective = getDirective(schema, fieldConfig, 'cache')?.[0];
+      
+      if (cacheDirective) {
+        const { ttl } = cacheDirective;
+        const originalResolver = fieldConfig.resolve;
+        
+        fieldConfig.resolve = async (source, args, context, info) => {
+          const cacheKey = generateCacheKey(info, args, context);
+          
+          // Check cache
+          const cached = await context.cache.get(cacheKey);
+          if (cached) {
+            return cached;
+          }
+          
+          // Execute resolver
+          const result = await originalResolver(source, args, context, info);
+          
+          // Cache result
+          await context.cache.set(cacheKey, result, { ttl });
+          
+          return result;
+        };
+      }
+      
+      return fieldConfig;
+    }
+  });
+};</code></pre>
+
+    <h2>Monitoring and Observability</h2>
+    
+    <h3>Distributed Tracing</h3>
+    <pre><code>// OpenTelemetry integration
+import { trace, context, SpanStatusCode } from '@opentelemetry/api';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
+
+const tracer = trace.getTracer('graphql-federation');
+
+class TracingPlugin {
+  async requestDidStart() {
+    const span = tracer.startSpan('graphql.request');
+    
+    return {
+      async willSendResponse(requestContext) {
+        // Add trace information to response
+        const traceHeader = span.spanContext().traceId;
+        requestContext.response.http.headers.set('x-trace-id', traceHeader);
+        
+        // Record metrics
+        span.setAttributes({
+          'graphql.operation': requestContext.request.operationName,
+          'graphql.complexity': calculateComplexity(requestContext.document),
+          'graphql.depth': calculateDepth(requestContext.document),
+          'graphql.errors': requestContext.errors?.length || 0
+        });
+        
+        if (requestContext.errors?.length > 0) {
+          span.setStatus({
+            code: SpanStatusCode.ERROR,
+            message: requestContext.errors[0].message
+          });
+        }
+        
+        span.end();
+      },
+      
+      async executionDidStart() {
+        return {
+          willResolveField({ source, args, context, info }) {
+            const fieldSpan = tracer.startSpan(
+              \`graphql.resolve.\${info.parentType.name}.\${info.fieldName}\`,
+              { parent: span }
+            );
+            
+            return (error, result) => {
+              if (error) {
+                fieldSpan.recordException(error);
+                fieldSpan.setStatus({
+                  code: SpanStatusCode.ERROR,
+                  message: error.message
+                });
+              }
+              
+              fieldSpan.end();
+            };
+          }
+        };
+      }
+    };
+  }
+}
+
+// Metrics collection
+class MetricsCollector {
+  constructor() {
+    this.prometheus = new PrometheusClient();
+    
+    // Define metrics
+    this.requestDuration = new this.prometheus.Histogram({
+      name: 'graphql_request_duration_seconds',
+      help: 'GraphQL request duration',
+      labelNames: ['operation', 'service', 'status']
+    });
+    
+    this.fieldResolution = new this.prometheus.Histogram({
+      name: 'graphql_field_resolution_duration_seconds',
+      help: 'Field resolution duration',
+      labelNames: ['type', 'field', 'service']
+    });
+    
+    this.queryComplexity = new this.prometheus.Histogram({
+      name: 'graphql_query_complexity',
+      help: 'Query complexity score',
+      buckets: [10, 50, 100, 500, 1000, 5000]
+    });
+  }
+  
+  recordRequest(operation, duration, status) {
+    this.requestDuration.observe(
+      { operation, status },
+      duration / 1000
+    );
+  }
+  
+  recordFieldResolution(type, field, duration) {
+    this.fieldResolution.observe(
+      { type, field },
+      duration / 1000
+    );
+  }
+}</code></pre>
+
+    <h2>Security in Federated GraphQL</h2>
+    
+    <h3>Authentication and Authorization</h3>
+    <pre><code>// Centralized auth at gateway level
+const authPlugin = {
+  async requestDidStart() {
+    return {
+      async didResolveOperation(requestContext) {
+        const token = requestContext.request.http.headers.get('authorization');
+        
+        if (!token) {
+          throw new AuthenticationError('No authorization token provided');
+        }
+        
+        try {
+          // Verify JWT token
+          const decoded = jwt.verify(token, process.env.JWT_SECRET);
+          
+          // Add user context
+          requestContext.context.user = decoded;
+          requestContext.context.permissions = await getPermissions(decoded.userId);
+          
+        } catch (error) {
+          throw new AuthenticationError('Invalid token');
+        }
+      }
+    };
+  }
+};
+
+// Field-level authorization
+const authDirectiveTransformer = (schema) => {
+  return mapSchema(schema, {
+    [MapperKind.FIELD]: (fieldConfig) => {
+      const authDirective = getDirective(schema, fieldConfig, 'auth')?.[0];
+      
+      if (authDirective) {
+        const { requires } = authDirective;
+        const originalResolver = fieldConfig.resolve;
+        
+        fieldConfig.resolve = async (source, args, context, info) => {
+          // Check permissions
+          if (!context.permissions.includes(requires)) {
+            throw new ForbiddenError(\`Missing permission: \${requires}\`);
+          }
+          
+          return originalResolver(source, args, context, info);
+        };
+      }
+      
+      return fieldConfig;
+    }
+  });
+};
+
+// Rate limiting
+const rateLimitPlugin = new RateLimitPlugin({
+  identifyContext: (context) => context.user?.id || context.ip,
+  
+  // Different limits for different operations
+  limits: {
+    Query: {
+      products: { max: 100, window: '1m' },
+      search: { max: 30, window: '1m' }
+    },
+    Mutation: {
+      createOrder: { max: 10, window: '1h' },
+      updateProfile: { max: 20, window: '1h' }
+    }
+  },
+  
+  // Custom error message
+  onRateLimitExceeded: (context, info) => {
+    throw new Error(\`Rate limit exceeded for \${info.fieldName}\`);
+  }
+});</code></pre>
+
+    <h2>Testing Federated Services</h2>
+    
+    <h3>Integration Testing</h3>
+    <pre><code>// Testing federated queries
+describe('Federation Integration Tests', () => {
+  let gateway;
+  let server;
+  
+  beforeAll(async () => {
+    // Start mock subgraph services
+    await startMockServices();
+    
+    // Initialize gateway
+    gateway = new ApolloGateway({
+      supergraphSdl: await getTestSupergraph(),
+      buildService: ({ url }) => new LocalGraphQLDataSource({ url })
+    });
+    
+    server = new ApolloServer({ gateway });
+    await server.start();
+  });
+  
+  test('should resolve cross-service query', async () => {
+    const query = \`
+      query GetUserWithOrders($userId: ID!) {
+        user(id: $userId) {
+          id
+          name
+          orders {
+            id
+            total
+            items {
+              product {
+                id
+                name
+                price
+              }
+              quantity
+            }
+          }
+        }
+      }
+    \`;
+    
+    const result = await server.executeOperation({
+      query,
+      variables: { userId: 'user-1' }
+    });
+    
+    expect(result.errors).toBeUndefined();
+    expect(result.data.user).toBeDefined();
+    expect(result.data.user.orders).toHaveLength(2);
+    expect(result.data.user.orders[0].items[0].product.name).toBeDefined();
+  });
+  
+  test('should handle entity resolution', async () => {
+    const query = \`
+      query GetProduct($id: ID!) {
+        product(id: $id) {
+          id
+          name
+          reviews {
+            rating
+            comment
+          }
+          inventory {
+            available
+            warehouse
+          }
+        }
+      }
+    \`;
+    
+    const result = await server.executeOperation({
+      query,
+      variables: { id: 'product-1' }
+    });
+    
+    expect(result.data.product.reviews).toBeDefined();
+    expect(result.data.product.inventory).toBeDefined();
+  });
+});
+
+// Contract testing for subgraphs
+describe('Subgraph Contract Tests', () => {
+  test('Product service implements required fields', async () => {
+    const introspection = await introspectSchema('http://localhost:4001/graphql');
+    
+    const productType = introspection.__schema.types.find(t => t.name === 'Product');
+    
+    expect(productType.fields).toContainEqual(
+      expect.objectContaining({ name: 'id' })
+    );
+    expect(productType.fields).toContainEqual(
+      expect.objectContaining({ name: 'name' })
+    );
+  });
+});</code></pre>
+
+    <h2>Deployment Strategies</h2>
+    
+    <h3>Blue-Green Deployments</h3>
+    <pre><code>// Kubernetes deployment configuration
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphql-gateway-blue
+  labels:
+    app: graphql-gateway
+    version: blue
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: graphql-gateway
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: graphql-gateway
+        version: blue
+    spec:
+      containers:
+      - name: gateway
+        image: graphql-gateway:2.0.0
+        ports:
+        - containerPort: 4000
+        env:
+        - name: APOLLO_KEY
+          valueFrom:
+            secretKeyRef:
+              name: apollo-secrets
+              key: key
+        - name: APOLLO_GRAPH_REF
+          value: "production@current"
+        livenessProbe:
+          httpGet:
+            path: /.well-known/apollo/server-health
+            port: 4000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /.well-known/apollo/server-health
+            port: 4000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphql-gateway
+spec:
+  selector:
+    app: graphql-gateway
+    version: blue  # Switch to green for deployment
+  ports:
+  - port: 80
+    targetPort: 4000
+  type: LoadBalancer</code></pre>
+
+    <h2>Real-World Case Studies</h2>
+    
+    <h3>Netflix: Federated GraphQL at Scale</h3>
+    <p>Netflix operates one of the largest GraphQL federations with over 150 subgraphs serving millions of requests per second. Their federation architecture enables hundreds of teams to contribute to a unified API while maintaining independence.</p>
+    
+    <h3>PayPal: Financial Services Federation</h3>
+    <p>PayPal uses GraphQL Federation to unify APIs across payments, risk, compliance, and user services. Their implementation handles sensitive financial data with strict security and compliance requirements.</p>
+    
+    <h3>Expedia: Travel Platform Federation</h3>
+    <p>Expedia's federated GraphQL architecture connects hotels, flights, cars, and activities services, enabling complex travel planning queries across multiple inventory systems.</p>
+
+    <h2>Conclusion</h2>
+    <p>GraphQL Federation represents the evolution of API architecture for large-scale systems. By enabling autonomous teams to contribute to a unified graph, federation solves the fundamental tension between centralized API design and distributed development.</p>
+    
+    <p>Success with federation requires careful attention to schema design, performance optimization, security, and operational excellence. The patterns and practices covered in this guide provide a foundation for building robust, scalable federated GraphQL architectures.</p>
+    
+    <p>As the ecosystem matures, we're seeing innovations in areas like schema governance, automated composition, and edge federation. The future of GraphQL Federation lies in making it even easier for organizations to build and operate planet-scale API platforms.</p>
+  `,
+
   // More articles will continue...
 }
