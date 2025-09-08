@@ -2,6 +2,30 @@
   <NuxtPage />
 </template>
 
+<script setup>
+// Force favicon update
+if (process.client) {
+  onMounted(() => {
+    // Remove existing favicons
+    const existingIcons = document.querySelectorAll('link[rel*="icon"]')
+    existingIcons.forEach(icon => icon.remove())
+    
+    // Add SVG favicon
+    const svgIcon = document.createElement('link')
+    svgIcon.rel = 'icon'
+    svgIcon.type = 'image/svg+xml'
+    svgIcon.href = '/favicon.svg'
+    document.head.appendChild(svgIcon)
+    
+    // Add fallback ICO
+    const icoIcon = document.createElement('link')
+    icoIcon.rel = 'alternate icon'
+    icoIcon.href = '/favicon.ico'
+    document.head.appendChild(icoIcon)
+  })
+}
+</script>
+
 <style>
 @tailwind base;
 @tailwind components;
