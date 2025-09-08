@@ -55,13 +55,13 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     // Private keys (only available on server-side)
-    databaseUrl: process.env.DATABASE_URL,
-    emailApiKey: process.env.EMAIL_API_KEY,
+    databaseUrl: process.env.DATABASE_URL || '',
+    emailApiKey: process.env.EMAIL_API_KEY || '',
     
     // Public keys (exposed to client-side)
     public: {
       siteUrl: process.env.SITE_URL || 'https://jamesrossjr.com',
-      googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID
+      googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID || ''
     }
   },
 
