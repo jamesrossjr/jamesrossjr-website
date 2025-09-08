@@ -129,7 +129,7 @@
           <h2 class="animate-element text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 text-center">
             Featured Work
           </h2>
-          <p class="animate-element text-gray-400 text-center mb-4 sm:mb-6 md:mb-8">20+ Projects Delivered</p>
+          <p class="animate-element text-gray-400 text-center mb-4 sm:mb-6 md:mb-8">Selected Case Studies & Solutions</p>
           
           <!-- Scrollable Projects Container -->
           <div class="animate-element overflow-y-auto max-h-[60vh] pr-2 portfolio-scroll">
