@@ -3,25 +3,25 @@
 </template>
 
 <script setup>
-// Force favicon update
+// Force favicon update to use ICO
 if (process.client) {
   onMounted(() => {
     // Remove existing favicons
     const existingIcons = document.querySelectorAll('link[rel*="icon"]')
     existingIcons.forEach(icon => icon.remove())
     
-    // Add SVG favicon
-    const svgIcon = document.createElement('link')
-    svgIcon.rel = 'icon'
-    svgIcon.type = 'image/svg+xml'
-    svgIcon.href = '/favicon.svg'
-    document.head.appendChild(svgIcon)
-    
-    // Add fallback ICO
+    // Add ICO favicon as primary
     const icoIcon = document.createElement('link')
-    icoIcon.rel = 'alternate icon'
-    icoIcon.href = '/favicon.ico'
+    icoIcon.rel = 'icon'
+    icoIcon.type = 'image/x-icon'
+    icoIcon.href = '/favicon.ico?v=' + Date.now() // Cache bust
     document.head.appendChild(icoIcon)
+    
+    // Add shortcut icon for compatibility
+    const shortcutIcon = document.createElement('link')
+    shortcutIcon.rel = 'shortcut icon'
+    shortcutIcon.href = '/favicon.ico?v=' + Date.now()
+    document.head.appendChild(shortcutIcon)
   })
 }
 </script>
