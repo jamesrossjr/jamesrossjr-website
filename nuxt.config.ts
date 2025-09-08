@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  ssr: false, // Disable SSR to fix Netlify deployment issues
   
   typescript: {
     strict: false,
@@ -13,9 +14,9 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@pinia/nuxt',
     '@vueuse/nuxt',
-    '@nuxtjs/google-fonts',
-    '@nuxtjs/sitemap',
-    '@nuxtjs/robots'
+    '@nuxtjs/google-fonts'
+    // '@nuxtjs/sitemap', // Temporarily disabled - causing build issues
+    // '@nuxtjs/robots' // Temporarily disabled - depends on sitemap
   ],
 
   // css: ['@/assets/css/main.css'], // Temporarily commented out
@@ -54,31 +55,31 @@ export default defineNuxtConfig({
     }
   },
 
-  seo: {
-    redirectToCanonicalSiteUrl: true
-  },
+  // seo: {
+  //   redirectToCanonicalSiteUrl: true
+  // },
   
-  // Sitemap configuration
-  sitemap: {
-    hostname: 'https://jamesrossjr.com',
-    gzip: true,
-    exclude: ['/admin/**'],
-    routes: [
-      { url: '/', changefreq: 'weekly', priority: 1.0 },
-      { url: '/about', changefreq: 'monthly', priority: 0.9 },
-      { url: '/portfolio', changefreq: 'weekly', priority: 0.9 },
-      { url: '/blog', changefreq: 'weekly', priority: 0.8 },
-      { url: '/contact', changefreq: 'monthly', priority: 0.7 }
-    ]
-  },
+  // // Sitemap configuration - Temporarily disabled
+  // sitemap: {
+  //   hostname: 'https://jamesrossjr.com',
+  //   gzip: true,
+  //   exclude: ['/admin/**'],
+  //   routes: [
+  //     { url: '/', changefreq: 'weekly', priority: 1.0 },
+  //     { url: '/about', changefreq: 'monthly', priority: 0.9 },
+  //     { url: '/portfolio', changefreq: 'weekly', priority: 0.9 },
+  //     { url: '/blog', changefreq: 'weekly', priority: 0.8 },
+  //     { url: '/contact', changefreq: 'monthly', priority: 0.7 }
+  //   ]
+  // },
   
-  // Robots.txt configuration
-  robots: {
-    UserAgent: '*',
-    Allow: '/',
-    Sitemap: 'https://jamesrossjr.com/sitemap.xml',
-    Disallow: '/admin'
-  },
+  // // Robots.txt configuration - Temporarily disabled
+  // robots: {
+  //   UserAgent: '*',
+  //   Allow: '/',
+  //   Sitemap: 'https://jamesrossjr.com/sitemap.xml',
+  //   Disallow: '/admin'
+  // },
   
   // Global SEO meta tags
   app: {
