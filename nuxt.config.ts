@@ -103,10 +103,10 @@ export default defineNuxtConfig({
         { name: 'theme-color', content: '#2563eb' }
       ],
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.ico' },
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'shortcut icon', href: '/favicon.ico' },
-        { rel: 'apple-touch-icon', href: '/favicon.svg' },
+        { rel: 'apple-touch-icon', href: '/favicon.ico' },
         { rel: 'canonical', href: 'https://jamesrossjr.com' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
