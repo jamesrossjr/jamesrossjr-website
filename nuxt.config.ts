@@ -3,18 +3,6 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   
-  app: {
-    head: {
-      charset: 'utf-8',
-      viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
-      meta: [
-        { name: 'apple-mobile-web-app-capable', content: 'yes' },
-        { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
-        { name: 'format-detection', content: 'telephone=no' }
-      ]
-    }
-  },
-  
   typescript: {
     strict: false,
     typeCheck: false

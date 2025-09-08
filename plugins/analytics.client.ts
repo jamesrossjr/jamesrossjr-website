@@ -1,8 +1,8 @@
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
   
-  // Only initialize analytics in production
-  if (process.env.NODE_ENV === 'production' && config.public.googleAnalyticsId) {
+  // Only initialize analytics in production and on client side
+  if (process.client && process.env.NODE_ENV === 'production' && config.public.googleAnalyticsId) {
     // Google Analytics 4
     const script1 = document.createElement('script')
     script1.async = true
@@ -10,11 +10,11 @@ export default defineNuxtPlugin((nuxtApp) => {
     document.head.appendChild(script1)
     
     // Initialize gtag
-    window.dataLayer = window.dataLayer || []
-    function gtag() {
-      window.dataLayer.push(arguments)
+    (window as any).dataLayer = (window as any).dataLayer || []
+    function gtag(...args: any[]) {
+      (window as any).dataLayer.push(args)
     }
-    window.gtag = gtag
+    (window as any).gtag = gtag
     gtag('js', new Date())
     gtag('config', config.public.googleAnalyticsId)
     
