@@ -525,17 +525,23 @@ const copyLink = (post: any) => {
 }
 
 // Handle escape key to close modal
-onMounted(() => {
-  const handleEscape = (e: KeyboardEvent) => {
-    if (e.key === 'Escape' && selectedArticle.value) {
-      closeArticle()
-    }
+// Handle keyboard events for closing modal
+const handleEscape = (e: KeyboardEvent) => {
+  if (e.key === 'Escape' && selectedArticle.value) {
+    closeArticle()
   }
-  window.addEventListener('keydown', handleEscape)
-  
-  onUnmounted(() => {
+}
+
+onMounted(() => {
+  if (process.client) {
+    window.addEventListener('keydown', handleEscape)
+  }
+})
+
+onUnmounted(() => {
+  if (process.client) {
     window.removeEventListener('keydown', handleEscape)
-  })
+  }
 })
 </script>
 
