@@ -124,12 +124,9 @@
 const selectedCategory = ref('All')
 
 // Fetch blog posts using useAsyncData and $fetch
-const { data: blogPosts, pending, error } = await useLazyAsyncData(
+const { data: blogPosts, pending, error } = await useAsyncData(
   'blog-posts',
-  () => $fetch('/api/blog'),
-  {
-    default: () => []
-  }
+  () => $fetch('/api/blog')
 )
 
 // Enable scrolling on blog page
