@@ -23,11 +23,18 @@ logs
 
 # Netlify
 .netlify
-dist
 
 # Local env files
 .env
 .env.*
 !.env.example
+
+# Deployment config files
+vercel.json
+netlify.toml
+
+# Lock files (keep only package-lock.json)
+pnpm-lock.yaml
+yarn.lock
 
 /generated/prisma

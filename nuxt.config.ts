@@ -14,12 +14,27 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@pinia/nuxt',
     '@vueuse/nuxt',
-    '@nuxtjs/google-fonts'
+    '@nuxtjs/google-fonts',
+    '@nuxt/content'
     // '@nuxtjs/sitemap', // Temporarily disabled - causing build issues
     // '@nuxtjs/robots' // Temporarily disabled - depends on sitemap
   ],
 
   // css: ['@/assets/css/main.css'], // Temporarily commented out
+
+  content: {
+    highlight: {
+      theme: 'github-dark',
+      preload: ['javascript', 'typescript', 'python', 'bash', 'yaml', 'json']
+    },
+    markdown: {
+      anchorLinks: true,
+      toc: {
+        depth: 3,
+        searchDepth: 3
+      }
+    }
+  },
 
   googleFonts: {
     families: {
