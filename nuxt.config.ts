@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  ssr: false, // Disable SSR to fix Netlify deployment issues
+  ssr: true, // Enable SSR for proper content rendering
   
   typescript: {
     strict: false,
@@ -55,7 +55,10 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify'
+    preset: 'netlify',
+    prerender: {
+      routes: ['/blog', '/api/blog']
+    }
   },
 
   runtimeConfig: {
