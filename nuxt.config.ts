@@ -55,10 +55,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify',
-    prerender: {
-      routes: ['/blog', '/api/blog']
-    }
+    preset: 'netlify'
   },
 
   runtimeConfig: {

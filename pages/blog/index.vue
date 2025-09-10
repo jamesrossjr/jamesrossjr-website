@@ -123,10 +123,13 @@
 <script setup lang="ts">
 const selectedCategory = ref('All')
 
-// Fetch blog posts using useAsyncData and $fetch
+// Fetch blog posts using Nuxt Content
 const { data: blogPosts, pending, error } = await useAsyncData(
-  'blog-posts',
-  () => $fetch('/api/blog')
+  'blog-posts', 
+  () => queryContent('/blog')
+    .only(['_path', 'title', 'description', 'date', 'category', 'readTime', 'tags'])
+    .sort({ date: -1 })
+    .find()
 )
 
 // Enable scrolling on blog page

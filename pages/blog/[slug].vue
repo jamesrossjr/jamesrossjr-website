@@ -67,7 +67,7 @@
         </header>
         
         <!-- Article Body -->
-        <div class="prose prose-lg prose-invert max-w-none" v-html="article.body"></div>
+        <ContentRenderer :value="article" class="prose prose-lg prose-invert max-w-none" />
         
         <!-- Tags -->
         <div v-if="article.tags && article.tags.length > 0" class="mt-12 pt-8 border-t border-gray-800">
@@ -112,10 +112,10 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const slug = route.params.slug as string
 
-// Fetch the article
-const { data: article, pending, error } = await useLazyAsyncData(
+// Fetch the article using Nuxt Content
+const { data: article, pending, error } = await useAsyncData(
   `blog-${slug}`,
-  () => $fetch(`/api/blog/${slug}`)
+  () => queryContent('/blog', slug).findOne()
 )
 
 // Enable scrolling on blog article page
