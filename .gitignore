@@ -31,7 +31,6 @@ logs
 
 # Deployment config files
 vercel.json
-netlify.toml
 
 # Lock files (keep only package-lock.json)
 pnpm-lock.yaml
