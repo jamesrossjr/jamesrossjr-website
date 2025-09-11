@@ -112,11 +112,8 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 const slug = route.params.slug as string
 
-// Fetch the article using Nuxt Content
-const { data: article, pending, error } = await useAsyncData(
-  `blog-${slug}`,
-  () => queryContent('/blog', slug).findOne()
-)
+// Fetch the article using API endpoint
+const { data: article, pending, error } = await useFetch(`/api/blog/${slug}`)
 
 // Enable scrolling on blog article page
 onMounted(() => {

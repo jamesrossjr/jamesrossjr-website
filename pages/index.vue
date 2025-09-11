@@ -545,15 +545,10 @@
 </template>
 
 <script setup lang="ts">
-// Fetch latest blog posts
-const { data: latestPosts } = await useAsyncData(
-  'latest-posts',
-  () => queryContent('/blog')
-    .only(['_path', 'title', 'description', 'date', 'category', 'readTime'])
-    .sort({ date: -1 })
-    .limit(2)
-    .find()
-)
+// Fetch latest blog posts from API
+const { data: latestPosts } = await useFetch('/api/blog', {
+  query: { limit: 2 }
+})
 
 // Format date for display
 const formatDate = (dateString: string) => {

@@ -123,14 +123,8 @@
 <script setup lang="ts">
 const selectedCategory = ref('All')
 
-// Fetch blog posts using Nuxt Content
-const { data: blogPosts, pending, error } = await useAsyncData(
-  'blog-posts', 
-  () => queryContent('/blog')
-    .only(['_path', 'title', 'description', 'date', 'category', 'readTime', 'tags'])
-    .sort({ date: -1 })
-    .find()
-)
+// Fetch blog posts using API endpoint
+const { data: blogPosts, pending, error } = await useFetch('/api/blog')
 
 // Enable scrolling on blog page
 onMounted(() => {
