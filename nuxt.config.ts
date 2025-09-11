@@ -23,6 +23,10 @@ export default defineNuxtConfig({
   // css: ['@/assets/css/main.css'], // Temporarily commented out
 
   content: {
+    // Disable SQLite database for Netlify compatibility
+    database: {
+      type: 'json'
+    },
     highlight: {
       theme: 'github-dark',
       preload: ['javascript', 'typescript', 'python', 'bash', 'yaml', 'json']
@@ -55,7 +59,14 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify'
+    preset: 'netlify',
+    // Configure better-sqlite3 as external to prevent build issues
+    experimental: {
+      wasm: true
+    },
+    externals: {
+      external: ['better-sqlite3']
+    }
   },
 
   runtimeConfig: {
