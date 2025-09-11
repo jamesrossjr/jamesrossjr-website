@@ -2,9 +2,9 @@
   <NuxtLayout name="horizontal">
     <!-- Section 1: Blog & Insights -->
     <section class="section-panel" data-section="blog">
-      <div class="w-screen h-screen flex flex-col p-4 sm:p-6 md:p-8">
+      <div class="w-screen h-screen flex flex-col p-4 sm:p-6 md:p-8 overflow-hidden">
         <!-- Header -->
-        <div class="text-center mb-6">
+        <div class="text-center mb-4 sm:mb-6">
           <h1 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
             Blog & Insights
           </h1>
@@ -13,8 +13,8 @@
           </p>
         </div>
         
-        <!-- Scrollable Blog Grid -->
-        <div class="animate-element flex-1 overflow-y-auto">
+        <!-- Scrollable Blog Grid - only this scrolls internally -->
+        <div class="animate-element flex-1 overflow-y-auto overflow-x-hidden -mx-4 px-4 sm:-mx-6 sm:px-6 md:-mx-8 md:px-8">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-7xl mx-auto pb-4">
             <NuxtLink 
               v-for="post in allPosts" 
@@ -96,16 +96,21 @@
 
     <!-- Section 3: About -->
     <section class="section-panel" data-section="about">
-      <div class="w-screen h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
-        <div class="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div class="text-center lg:text-left">
-            <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6">
-              Strategic Vision
-              <span class="block text-xl sm:text-2xl md:text-3xl lg:text-4xl text-blue-400 mt-2">Meets Technical Excellence</span>
-            </h2>
-            <p class="animate-element text-gray-300 text-base sm:text-lg leading-relaxed mb-4 md:mb-6">
-              With 6 years of experience architecting enterprise solutions, I bridge the gap between business strategy and technical implementation.
-            </p>
+      <div class="w-screen h-screen flex flex-col justify-start pt-12 md:pt-16 lg:pt-20 p-4 sm:p-6 md:p-8">
+        <div class="max-w-6xl mx-auto w-full">
+          <!-- Title at the top -->
+          <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 text-center">
+            Strategic Vision
+            <span class="block text-xl sm:text-2xl md:text-3xl lg:text-4xl text-blue-400 mt-2">Meets Technical Excellence</span>
+          </h2>
+          
+          <!-- Content below -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mt-8">
+            <div class="text-center lg:text-left">
+              <p class="animate-element text-gray-300 text-base sm:text-lg leading-relaxed mb-4 md:mb-6">
+                With 6 years of experience architecting enterprise solutions,<br class="hidden sm:block" />
+                I bridge the gap between business strategy and technical implementation.
+              </p>
             <div class="animate-element space-y-4 flex flex-col items-center lg:items-start">
               <div class="flex items-center gap-4 w-full max-w-sm lg:max-w-none">
                 <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
@@ -141,8 +146,8 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="relative mt-8 lg:mt-0">
+            </div>
+            <div class="relative mt-8 lg:mt-0">
             <div class="animate-element relative z-10">
               <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl blur-3xl opacity-30"></div>
               <div class="relative bg-gray-800/50 backdrop-blur-xl rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-700">
