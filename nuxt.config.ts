@@ -23,16 +23,9 @@ export default defineNuxtConfig({
   // css: ['@/assets/css/main.css'], // Temporarily commented out
 
   content: {
-    // Use filesystem storage to avoid SQLite runtime issues on Netlify
-    experimental: {
-      clientDB: false
-    },
-    database: {
-      type: 'fs'
-    },
+    // Simplified configuration for Netlify compatibility
     highlight: {
-      theme: 'github-dark',
-      preload: ['javascript', 'typescript', 'python', 'bash', 'yaml', 'json']
+      theme: 'github-dark'
     },
     markdown: {
       anchorLinks: true,
@@ -62,15 +55,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify',
-    // Bundle better-sqlite3 to avoid runtime issues
-    experimental: {
-      wasm: true
-    },
-    alias: {
-      'better-sqlite3': 'better-sqlite3'
-    },
-    moduleSideEffects: ['better-sqlite3']
+    preset: 'netlify'
   },
 
   runtimeConfig: {
@@ -137,7 +122,7 @@ export default defineNuxtConfig({
         { rel: 'shortcut icon', type: 'image/x-icon', href: '/favicon.ico' },
         { rel: 'canonical', href: 'https://jamesrossjr.com' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' }
       ],
       script: [
         {
