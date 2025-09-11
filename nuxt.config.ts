@@ -23,6 +23,10 @@ export default defineNuxtConfig({
   // css: ['@/assets/css/main.css'], // Temporarily commented out
 
   content: {
+    // Disable database feature to avoid better-sqlite3 dependency
+    database: {
+      type: 'fs'
+    },
     highlight: {
       theme: 'github-dark',
       preload: ['javascript', 'typescript', 'python', 'bash', 'yaml', 'json']
@@ -55,11 +59,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify',
-    // Configure rollup to handle better-sqlite3
-    rollupConfig: {
-      external: ['better-sqlite3']
-    }
+    preset: 'netlify'
   },
 
   runtimeConfig: {
