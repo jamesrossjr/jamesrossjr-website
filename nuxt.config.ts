@@ -23,10 +23,8 @@ export default defineNuxtConfig({
   // css: ['@/assets/css/main.css'], // Temporarily commented out
 
   content: {
-    // Disable SQLite database for Netlify compatibility
-    database: {
-      type: 'json'
-    },
+    // Disable database entirely for Netlify compatibility
+    database: false,
     highlight: {
       theme: 'github-dark',
       preload: ['javascript', 'typescript', 'python', 'bash', 'yaml', 'json']
