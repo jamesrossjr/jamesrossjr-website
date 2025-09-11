@@ -23,7 +23,10 @@ export default defineNuxtConfig({
   // css: ['@/assets/css/main.css'], // Temporarily commented out
 
   content: {
-    // Disable database feature to avoid better-sqlite3 dependency
+    // Use filesystem storage to avoid SQLite runtime issues on Netlify
+    experimental: {
+      clientDB: false
+    },
     database: {
       type: 'fs'
     },
@@ -59,7 +62,15 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify'
+    preset: 'netlify',
+    // Bundle better-sqlite3 to avoid runtime issues
+    experimental: {
+      wasm: true
+    },
+    alias: {
+      'better-sqlite3': 'better-sqlite3'
+    },
+    moduleSideEffects: ['better-sqlite3']
   },
 
   runtimeConfig: {

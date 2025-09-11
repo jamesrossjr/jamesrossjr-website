@@ -27,6 +27,7 @@
     "@studio-freight/lenis": "^1.0.42",
     "@types/three": "^0.180.0",
     "@vueuse/nuxt": "^13.9.0",
+    "better-sqlite3": "^12.2.0",
     "gray-matter": "^4.0.3",
     "gsap": "^3.13.0",
     "locomotive-scroll": "^4.1.4",

@@ -1,11 +1,14 @@
 [build]
-  command = "npm install && npm run build"
+  command = "npm install --platform=linuxmusl && npm run build"
   publish = "dist"
 
 [build.environment]
   NODE_VERSION = "20.19.0"
   NPM_FLAGS = "--legacy-peer-deps"
   NITRO_PRESET = "netlify"
+  # Force better-sqlite3 to use prebuilt binaries
+  npm_config_build_from_source = "false"
+  npm_config_sqlite = "/usr"
 
 [[redirects]]
   from = "/api/*"
