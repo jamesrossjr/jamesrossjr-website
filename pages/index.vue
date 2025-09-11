@@ -1,9 +1,63 @@
 <template>
   <NuxtLayout name="horizontal">
-    <!-- Section 1: Hero -->
+    <!-- Section 1: Blog & Insights -->
+    <section class="section-panel" data-section="blog">
+      <div class="w-screen h-screen flex flex-col p-4 sm:p-6 md:p-8">
+        <!-- Header -->
+        <div class="text-center mb-6">
+          <h1 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+            Blog & Insights
+          </h1>
+          <p class="animate-element text-gray-400 text-sm sm:text-base md:text-lg">
+            Strategic Systems Architecture • AI Integration • Enterprise Solutions
+          </p>
+        </div>
+        
+        <!-- Scrollable Blog Grid -->
+        <div class="animate-element flex-1 overflow-y-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-7xl mx-auto pb-4">
+            <NuxtLink 
+              v-for="post in allPosts" 
+              :key="post._path"
+              :to="post._path"
+              class="bg-gray-800/50 backdrop-blur-xl rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 group hover:transform hover:scale-[1.02] cursor-pointer h-fit"
+            >
+              <!-- Article Image/Gradient -->
+              <div class="aspect-video bg-gradient-to-br from-blue-500/20 to-purple-500/20 relative">
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-xs sm:text-sm font-semibold text-white/80 px-3 py-1 bg-black/30 rounded-full">
+                    {{ post.category }}
+                  </span>
+                </div>
+              </div>
+              
+              <!-- Article Content -->
+              <div class="p-4 sm:p-5">
+                <h3 class="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
+                  {{ post.title }}
+                </h3>
+                <p class="text-gray-400 text-xs sm:text-sm mb-3 line-clamp-2">
+                  {{ post.description }}
+                </p>
+                <div class="flex items-center justify-between text-gray-500 text-xs">
+                  <span>{{ post.readTime }} min read</span>
+                  <span>{{ formatDate(post.date) }}</span>
+                </div>
+              </div>
+            </NuxtLink>
+          </div>
+        </div>
+        
+        <!-- Mobile Swipe Indicator -->
+        <div class="mt-4 text-center md:hidden">
+          <div class="text-white/50 text-xs animate-pulse">Swipe for more sections →</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Hero -->
     <section class="section-panel" data-section="hero">
       <div class="relative w-screen h-screen flex items-center justify-center overflow-hidden">
-        
         <!-- Content -->
         <div class="relative z-20 text-center px-4 max-w-5xl mx-auto">
           <h1 class="animate-element text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-bold text-white mb-4 md:mb-6 tracking-tight">
@@ -37,15 +91,10 @@
             </span>
           </div>
         </div>
-        
-        <!-- Mobile Swipe Indicator -->
-        <div class="absolute bottom-20 left-1/2 transform -translate-x-1/2 md:hidden">
-          <div class="text-white/50 text-xs animate-pulse">Swipe to navigate</div>
-        </div>
       </div>
     </section>
 
-    <!-- Section 2: About -->
+    <!-- Section 3: About -->
     <section class="section-panel" data-section="about">
       <div class="w-screen h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
         <div class="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
@@ -122,7 +171,7 @@
       </div>
     </section>
 
-    <!-- Section 3: Portfolio -->
+    <!-- Section 4: Portfolio -->
     <section class="section-panel" data-section="portfolio">
       <div class="w-screen h-screen flex flex-col justify-center p-4 sm:p-6 md:p-8 overflow-hidden">
         <div class="max-w-7xl mx-auto w-full">
@@ -327,7 +376,7 @@
       </div>
     </section>
 
-    <!-- Section 4: Services -->
+    <!-- Section 5: Services -->
     <section class="section-panel" data-section="services">
       <div class="w-screen h-screen flex flex-col p-4 sm:p-6 md:p-8 overflow-hidden">
         <div class="max-w-6xl mx-auto w-full h-full flex flex-col">
@@ -459,51 +508,6 @@
       </div>
     </section>
 
-    <!-- Section 5: Blog -->
-    <section class="section-panel" data-section="blog">
-      <div class="w-screen h-screen flex flex-col justify-center p-4 sm:p-6 md:p-8 overflow-hidden">
-        <div class="max-w-6xl mx-auto w-full">
-          <h2 class="animate-element text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 lg:mb-12 text-center">
-            Latest Insights
-          </h2>
-          
-          <!-- Visit Blog Call-out -->
-          <div class="animate-element mb-6 sm:mb-8 text-center">
-            <a href="/blog" class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold rounded-full hover:from-blue-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
-              <span>Visit My Blog</span>
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </a>
-            <p class="text-gray-400 text-sm mt-3">Explore more articles, tutorials, and insights on systems architecture and AI</p>
-          </div>
-          
-          <div class="animate-element grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
-            <NuxtLink 
-              v-for="post in latestPosts" 
-              :key="post._path"
-              :to="post._path"
-              class="bg-gray-800/50 backdrop-blur-xl rounded-lg sm:rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-colors group cursor-pointer"
-            >
-              <div class="p-4 sm:p-6 md:p-8">
-                <div class="text-blue-400 text-xs sm:text-sm font-semibold mb-1 sm:mb-2">{{ post.category }}</div>
-                <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 sm:mb-3 group-hover:text-blue-400 transition-colors line-clamp-2">
-                  {{ post.title }}
-                </h3>
-                <p class="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
-                  {{ post.description }}
-                </p>
-                <div class="flex items-center text-gray-300 text-xs sm:text-sm">
-                  <span>{{ post.readTime }} min read</span>
-                  <span class="mx-1 sm:mx-2">•</span>
-                  <span>{{ formatDate(post.date) }}</span>
-                </div>
-              </div>
-            </NuxtLink>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- Section 6: Contact -->
     <section class="section-panel" data-section="contact">
@@ -545,10 +549,8 @@
 </template>
 
 <script setup lang="ts">
-// Fetch latest blog posts from API
-const { data: latestPosts } = await useFetch('/api/blog', {
-  query: { limit: 2 }
-})
+// Fetch all blog posts from API for the blog section
+const { data: allPosts } = await useFetch('/api/blog')
 
 // Format date for display
 const formatDate = (dateString: string) => {
@@ -578,8 +580,9 @@ useHead({
 </script>
 
 <style>
-/* Custom scrollbar for horizontal scroll */
+/* Custom scrollbar for horizontal and vertical scroll */
 ::-webkit-scrollbar {
+  width: 8px;
   height: 8px;
 }
 

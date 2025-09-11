@@ -6,11 +6,11 @@
     <!-- Navigation Header -->
     <div class="sticky top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-gray-800">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-        <NuxtLink to="/blog" class="inline-flex items-center gap-2 text-white hover:text-blue-400 transition-colors">
+        <NuxtLink to="/" class="inline-flex items-center gap-2 text-white hover:text-blue-400 transition-colors">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
           </svg>
-          <span>Back to Blog</span>
+          <span>Back to Home</span>
         </NuxtLink>
         
         <div class="flex items-center gap-3">
@@ -95,11 +95,11 @@
       <div class="text-center">
         <h2 class="text-2xl font-bold text-white mb-4">Article Not Found</h2>
         <p class="text-gray-400 mb-8">The article you're looking for doesn't exist.</p>
-        <NuxtLink to="/blog" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <NuxtLink to="/" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
           </svg>
-          Back to Blog
+          Back to Home
         </NuxtLink>
       </div>
     </div>
