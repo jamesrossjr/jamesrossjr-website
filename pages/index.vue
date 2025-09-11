@@ -479,38 +479,27 @@
           </div>
           
           <div class="animate-element grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
-            <article class="bg-gray-800/50 backdrop-blur-xl rounded-lg sm:rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-colors group">
+            <NuxtLink 
+              v-for="post in latestPosts" 
+              :key="post._path"
+              :to="post._path"
+              class="bg-gray-800/50 backdrop-blur-xl rounded-lg sm:rounded-xl overflow-hidden border border-gray-700 hover:border-blue-500 transition-colors group cursor-pointer"
+            >
               <div class="p-4 sm:p-6 md:p-8">
-                <div class="text-blue-400 text-xs sm:text-sm font-semibold mb-1 sm:mb-2">ARCHITECTURE</div>
+                <div class="text-blue-400 text-xs sm:text-sm font-semibold mb-1 sm:mb-2">{{ post.category }}</div>
                 <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 sm:mb-3 group-hover:text-blue-400 transition-colors line-clamp-2">
-                  Building Resilient Microservices at Scale
+                  {{ post.title }}
                 </h3>
                 <p class="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
-                  Learn the patterns and practices for building microservices that can handle billions of requests
+                  {{ post.description }}
                 </p>
                 <div class="flex items-center text-gray-300 text-xs sm:text-sm">
-                  <span>5 min read</span>
+                  <span>{{ post.readTime }} min read</span>
                   <span class="mx-1 sm:mx-2">•</span>
-                  <span>March 15, 2024</span>
+                  <span>{{ formatDate(post.date) }}</span>
                 </div>
               </div>
-            </article>
-            <article class="bg-gray-800/50 backdrop-blur-xl rounded-lg sm:rounded-xl overflow-hidden border border-gray-700 hover:border-purple-500 transition-colors group">
-              <div class="p-4 sm:p-6 md:p-8">
-                <div class="text-purple-400 text-xs sm:text-sm font-semibold mb-1 sm:mb-2">AI & ML</div>
-                <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 sm:mb-3 group-hover:text-purple-400 transition-colors line-clamp-2">
-                  Integrating AI into Enterprise Systems
-                </h3>
-                <p class="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
-                  A practical guide to adding intelligence to your existing infrastructure
-                </p>
-                <div class="flex items-center text-gray-300 text-xs sm:text-sm">
-                  <span>8 min read</span>
-                  <span class="mx-1 sm:mx-2">•</span>
-                  <span>March 10, 2024</span>
-                </div>
-              </div>
-            </article>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -556,6 +545,31 @@
 </template>
 
 <script setup lang="ts">
+// Fetch latest blog posts
+const { data: latestPosts } = await useAsyncData(
+  'latest-posts',
+  () => queryContent('/blog')
+    .only(['_path', 'title', 'description', 'date', 'category', 'readTime'])
+    .sort({ date: -1 })
+    .limit(2)
+    .find()
+)
+
+// Format date for display
+const formatDate = (dateString: string) => {
+  if (!dateString) return ''
+  try {
+    const date = new Date(dateString)
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    })
+  } catch {
+    return dateString
+  }
+}
+
 // SEO
 useHead({
   title: 'James Ross Jr. - Strategic Systems Architect',
