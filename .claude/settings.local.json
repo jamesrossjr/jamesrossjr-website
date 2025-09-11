@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(npm run dev:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(timeout:*)",
+      "Bash(curl:*)",
+      "Bash(powershell:*)",
+      "Bash(git add:*)",
+      "Bash(git push:*)",
+      "Bash(npm run build:*)",
+      "Bash(git commit:*)",
+      "Bash(npm uninstall:*)"
     ],
     "deny": [],
     "ask": []
