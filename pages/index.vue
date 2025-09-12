@@ -1,61 +1,6 @@
 <template>
   <NuxtLayout name="horizontal">
-    <!-- Section 1: Blog & Insights -->
-    <section class="section-panel" data-section="blog">
-      <div class="w-screen h-screen flex flex-col p-4 sm:p-6 md:p-8 overflow-hidden">
-        <!-- Header -->
-        <div class="text-center mb-4 sm:mb-6">
-          <h1 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
-            Blog & Insights
-          </h1>
-          <p class="animate-element text-gray-400 text-sm sm:text-base md:text-lg">
-            Strategic Systems Architecture • AI Integration • Enterprise Solutions
-          </p>
-        </div>
-        
-        <!-- Scrollable Blog Grid - only this scrolls internally -->
-        <div class="animate-element flex-1 overflow-y-auto overflow-x-hidden -mx-4 px-4 sm:-mx-6 sm:px-6 md:-mx-8 md:px-8">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-7xl mx-auto pb-4">
-            <NuxtLink 
-              v-for="post in allPosts" 
-              :key="post._path"
-              :to="post._path"
-              class="bg-gray-800/50 backdrop-blur-xl rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 group hover:transform hover:scale-[1.02] cursor-pointer h-fit"
-            >
-              <!-- Article Image/Gradient -->
-              <div class="aspect-video bg-gradient-to-br from-blue-500/20 to-purple-500/20 relative">
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <span class="text-xs sm:text-sm font-semibold text-white/80 px-3 py-1 bg-black/30 rounded-full">
-                    {{ post.category }}
-                  </span>
-                </div>
-              </div>
-              
-              <!-- Article Content -->
-              <div class="p-4 sm:p-5">
-                <h3 class="text-base sm:text-lg font-bold text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
-                  {{ post.title }}
-                </h3>
-                <p class="text-gray-400 text-xs sm:text-sm mb-3 line-clamp-2">
-                  {{ post.description }}
-                </p>
-                <div class="flex items-center justify-between text-gray-500 text-xs">
-                  <span>{{ post.readTime }} min read</span>
-                  <span>{{ formatDate(post.date) }}</span>
-                </div>
-              </div>
-            </NuxtLink>
-          </div>
-        </div>
-        
-        <!-- Mobile Swipe Indicator -->
-        <div class="mt-4 text-center md:hidden">
-          <div class="text-white/50 text-xs animate-pulse">Swipe for more sections →</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section 2: Hero -->
+    <!-- Section 1: Hero -->
     <section class="section-panel" data-section="hero">
       <div class="relative w-screen h-screen flex items-center justify-center overflow-hidden">
         <!-- Content -->
@@ -94,9 +39,9 @@
       </div>
     </section>
 
-    <!-- Section 3: About -->
+    <!-- Section 2: About -->
     <section class="section-panel" data-section="about">
-      <div class="w-screen h-screen flex flex-col justify-start pt-12 md:pt-16 lg:pt-20 p-4 sm:p-6 md:p-8">
+      <div class="w-screen h-screen flex flex-col justify-start pt-16 sm:pt-20 md:pt-24 p-4 sm:p-6 md:p-8 overflow-hidden">
         <div class="max-w-6xl mx-auto w-full">
           <!-- Title at the top -->
           <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 text-center">
@@ -105,68 +50,71 @@
           </h2>
           
           <!-- Content below -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mt-8">
-            <div class="text-center lg:text-left">
-              <p class="animate-element text-gray-300 text-base sm:text-lg leading-relaxed mb-4 md:mb-6">
-                With 6 years of experience architecting enterprise solutions,<br class="hidden sm:block" />
-                I bridge the gap between business strategy and technical implementation.
-              </p>
-            <div class="animate-element space-y-4 flex flex-col items-center lg:items-start">
-              <div class="flex items-center gap-4 w-full max-w-sm lg:max-w-none">
-                <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div class="text-left flex-1">
-                  <h3 class="text-white font-semibold mb-1">Enterprise Solutions</h3>
-                  <p class="text-gray-400 text-sm">Zero-trust networking with Twingate and secure access solutions</p>
+          <div class="overflow-y-auto max-h-[calc(100vh-200px)] sm:max-h-[calc(100vh-240px)] pr-2 about-scroll">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start mt-6 sm:mt-8">
+              <div class="text-center lg:text-left">
+                <p class="animate-element text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed mb-4 md:mb-6">
+                  With 6 years of experience architecting enterprise solutions,<br class="hidden sm:block" />
+                  I bridge the gap between business strategy and technical implementation.
+                </p>
+                <div class="animate-element space-y-3 sm:space-y-4 flex flex-col items-center lg:items-start">
+                  <div class="flex items-center gap-3 sm:gap-4 w-full max-w-sm lg:max-w-none">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                      <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div class="text-left flex-1">
+                      <h3 class="text-white font-semibold text-sm sm:text-base mb-1">Enterprise Solutions</h3>
+                      <p class="text-gray-400 text-xs sm:text-sm">Zero-trust networking with Twingate and secure access solutions</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 sm:gap-4 w-full max-w-sm lg:max-w-none">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                      <svg class="w-5 h-5 sm:w-6 sm:h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div class="text-left flex-1">
+                      <h3 class="text-white font-semibold text-sm sm:text-base mb-1">On-Prem Infrastructure</h3>
+                      <p class="text-gray-400 text-xs sm:text-sm">Advanced networking and AI hardware solutions with GPU clusters</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-3 sm:gap-4 w-full max-w-sm lg:max-w-none">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                      <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <div class="text-left flex-1">
+                      <h3 class="text-white font-semibold text-sm sm:text-base mb-1">AI & ML Integration</h3>
+                      <p class="text-gray-400 text-xs sm:text-sm">3 years pioneering intelligent system architectures</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div class="flex items-center gap-4 w-full max-w-sm lg:max-w-none">
-                <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div class="text-left flex-1">
-                  <h3 class="text-white font-semibold mb-1">On-Prem Infrastructure</h3>
-                  <p class="text-gray-400 text-sm">Advanced networking and AI hardware solutions with GPU clusters</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-4 w-full max-w-sm lg:max-w-none">
-                <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div class="text-left flex-1">
-                  <h3 class="text-white font-semibold mb-1">AI & ML Integration</h3>
-                  <p class="text-gray-400 text-sm">3 years pioneering intelligent system architectures</p>
-                </div>
-              </div>
-            </div>
-            </div>
-            <div class="relative mt-8 lg:mt-0">
-            <div class="animate-element relative z-10">
-              <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl blur-3xl opacity-30"></div>
-              <div class="relative bg-gray-800/50 backdrop-blur-xl rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-700">
-                <div class="grid grid-cols-2 gap-4 sm:gap-6">
-                  <div class="text-center">
-                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-400">20+</div>
-                    <div class="text-gray-400 text-xs sm:text-sm mt-1">Enterprise Projects</div>
-                  </div>
-                  <div class="text-center">
-                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-purple-400">6</div>
-                    <div class="text-gray-400 text-xs sm:text-sm mt-1">Years Experience</div>
-                  </div>
-                  <div class="text-center">
-                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-green-400">3</div>
-                    <div class="text-gray-400 text-xs sm:text-sm mt-1">Years in AI/ML</div>
-                  </div>
-                  <div class="text-center">
-                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-yellow-400">100%</div>
-                    <div class="text-gray-400 text-xs sm:text-sm mt-1">Client Satisfaction</div>
+              <div class="relative mt-6 sm:mt-8 lg:mt-0">
+                <div class="animate-element relative z-10">
+                  <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl sm:rounded-2xl blur-3xl opacity-30"></div>
+                  <div class="relative bg-gray-800/50 backdrop-blur-xl rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-6 border border-gray-700">
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                      <div class="text-center">
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-blue-400">20+</div>
+                        <div class="text-gray-400 text-xs mt-1">Enterprise Projects</div>
+                      </div>
+                      <div class="text-center">
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-purple-400">6</div>
+                        <div class="text-gray-400 text-xs mt-1">Years Experience</div>
+                      </div>
+                      <div class="text-center">
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-green-400">3</div>
+                        <div class="text-gray-400 text-xs mt-1">Years in AI/ML</div>
+                      </div>
+                      <div class="text-center">
+                        <div class="text-xl sm:text-2xl md:text-3xl font-bold text-yellow-400">100%</div>
+                        <div class="text-gray-400 text-xs mt-1">Client Satisfaction</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -176,204 +124,168 @@
       </div>
     </section>
 
-    <!-- Section 4: Portfolio -->
+    <!-- Section 3: Portfolio -->
     <section class="section-panel" data-section="portfolio">
-      <div class="w-screen h-screen flex flex-col justify-center p-4 sm:p-6 md:p-8 overflow-hidden">
+      <div class="w-screen h-screen flex flex-col justify-start pt-16 sm:pt-20 md:pt-24 p-4 sm:p-6 md:p-8 overflow-hidden">
         <div class="max-w-7xl mx-auto w-full">
-          <h2 class="animate-element text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-2 sm:mb-4 text-center">
+          <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-center">
             Featured Work
           </h2>
           
-          <!-- Scrollable Projects Container -->
-          <div class="animate-element overflow-y-auto max-h-[60vh] pr-2 portfolio-scroll">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 pb-4">
+          <!-- Scrollable Projects Container for Mobile -->
+          <div class="animate-element overflow-y-auto max-h-[calc(100vh-180px)] sm:max-h-[calc(100vh-200px)] md:max-h-[70vh] pr-2 portfolio-scroll">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 pb-4">
               <!-- Project 1: Canvas-CLI -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">Canvas-CLI</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">Canvas-CLI</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">CLI for local AI model interaction</p>
                 </div>
               </div>
               
               <!-- Project 2: NORM -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-green-600 to-teal-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">NORM</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">NORM</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">AI Hardware GPU optimization</p>
                 </div>
               </div>
               
               <!-- Project 3: Twingate Zero-Trust -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-purple-600 to-pink-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">SecureNet</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">SecureNet</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Zero-trust network architecture</p>
                 </div>
               </div>
               
               <!-- Project 4: DataStream Analytics -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-orange-600 to-red-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">DataStream</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">DataStream</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Real-time analytics pipeline</p>
                 </div>
               </div>
               
               <!-- Project 5: CloudMigrate Pro -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-cyan-600 to-blue-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">CloudMigrate</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">CloudMigrate</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">AWS migration automation</p>
                 </div>
               </div>
               
               <!-- Project 6: AI Vision -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 to-purple-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">AI Vision</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">AI Vision</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Computer vision ML platform</p>
                 </div>
               </div>
               
               <!-- Project 7: CryptoVault -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-yellow-600 to-amber-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">CryptoVault</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">CryptoVault</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">DeFi wallet infrastructure</p>
                 </div>
               </div>
               
               <!-- Project 8: DevOps Central -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-emerald-600 to-green-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">DevOps Central</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">DevOps Central</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">CI/CD pipeline automation</p>
                 </div>
               </div>
               
               <!-- Project 9: API Gateway -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-rose-600 to-pink-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">API Gateway</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">API Gateway</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Microservices orchestration</p>
                 </div>
               </div>
               
               <!-- Project 10: Kubernetes Manager -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-violet-600 to-purple-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">K8s Manager</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">K8s Manager</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Kubernetes cluster management</p>
                 </div>
               </div>
               
               <!-- Project 11: NeuralNet Studio -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-teal-600 to-cyan-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">NeuralNet Studio</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">NeuralNet Studio</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Deep learning framework</p>
                 </div>
               </div>
               
               <!-- Project 12: BlockChain Explorer -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
+              <div class="group relative overflow-hidden rounded-lg cursor-pointer">
                 <div class="absolute inset-0 bg-gradient-to-br from-lime-600 to-green-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">Chain Explorer</h3>
+                <div class="relative p-3 sm:p-4 md:p-5 h-28 sm:h-32 md:h-36 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
+                  <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-1">Chain Explorer</h3>
                   <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Blockchain analytics tool</p>
                 </div>
               </div>
-              
-              <!-- Project 13: Terraform Cloud -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
-                <div class="absolute inset-0 bg-gradient-to-br from-sky-600 to-blue-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">TerraCloud</h3>
-                  <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Infrastructure as Code platform</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Blog & Insights -->
+    <section class="section-panel" data-section="blog">
+      <div class="w-screen h-screen flex flex-col justify-start pt-16 sm:pt-20 md:pt-24 p-4 sm:p-6 md:p-8 overflow-hidden">
+        <div class="max-w-7xl mx-auto w-full">
+          <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-center">
+            Blog & Insights
+          </h2>
+          <p class="animate-element text-gray-300 text-sm sm:text-base md:text-lg text-center mb-6 md:mb-8">
+            Technical insights, architecture patterns, and industry perspectives
+          </p>
+          
+          <!-- Blog Posts Grid -->
+          <div class="animate-element overflow-y-auto max-h-[calc(100vh-240px)] sm:max-h-[calc(100vh-280px)] md:max-h-[65vh] pr-2 blog-scroll">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 pb-4">
+              <template v-if="allPosts && allPosts.length > 0">
+                <div v-for="post in allPosts" :key="post._path" class="group cursor-pointer">
+                  <NuxtLink :to="post._path" class="block">
+                    <article class="bg-gray-800/50 backdrop-blur-xl rounded-lg overflow-hidden border border-gray-700 hover:border-blue-500 transition-all duration-300 h-full">
+                      <div class="p-4 sm:p-5 md:p-6">
+                        <div class="flex items-center gap-2 mb-3">
+                          <span class="text-xs sm:text-sm text-blue-400">{{ formatDate(post.date) }}</span>
+                          <span v-if="post.readTime" class="text-xs sm:text-sm text-gray-500">• {{ post.readTime }} min read</span>
+                        </div>
+                        <h3 class="text-base sm:text-lg md:text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">{{ post.title }}</h3>
+                        <p v-if="post.description" class="text-gray-400 text-xs sm:text-sm line-clamp-3">{{ post.description }}</p>
+                        <div v-if="post.tags && post.tags.length > 0" class="flex flex-wrap gap-2 mt-3">
+                          <span v-for="tag in post.tags.slice(0, 3)" :key="tag" class="px-2 py-1 text-xs bg-gray-700/50 text-gray-300 rounded">
+                            {{ tag }}
+                          </span>
+                        </div>
+                      </div>
+                    </article>
+                  </NuxtLink>
                 </div>
-              </div>
-              
-              <!-- Project 14: Monitoring Suite -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
-                <div class="absolute inset-0 bg-gradient-to-br from-red-600 to-orange-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">MonitorPro</h3>
-                  <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Observability & monitoring</p>
-                </div>
-              </div>
-              
-              <!-- Project 15: Serverless Framework -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
-                <div class="absolute inset-0 bg-gradient-to-br from-fuchsia-600 to-pink-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">Serverless Hub</h3>
-                  <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Lambda function orchestration</p>
-                </div>
-              </div>
-              
-              <!-- Project 16: GraphQL Engine -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
-                <div class="absolute inset-0 bg-gradient-to-br from-amber-600 to-yellow-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">GraphQL Engine</h3>
-                  <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">API query optimization</p>
-                </div>
-              </div>
-              
-              <!-- Project 17: Edge Computing -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
-                <div class="absolute inset-0 bg-gradient-to-br from-slate-600 to-gray-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">EdgeCompute</h3>
-                  <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">CDN & edge functions</p>
-                </div>
-              </div>
-              
-              <!-- Project 18: Database Sharding -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
-                <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 to-blue-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">ShardMaster</h3>
-                  <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Database scaling solution</p>
-                </div>
-              </div>
-              
-              <!-- Project 19: Load Balancer -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
-                <div class="absolute inset-0 bg-gradient-to-br from-green-600 to-emerald-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">LoadBalance Pro</h3>
-                  <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Traffic distribution system</p>
-                </div>
-              </div>
-              
-              <!-- Project 20: Security Scanner -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
-                <div class="absolute inset-0 bg-gradient-to-br from-red-600 to-pink-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">SecScan</h3>
-                  <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Vulnerability assessment tool</p>
-                </div>
-              </div>
-              
-              <!-- Project 21: WebRTC Platform -->
-              <div class="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer">
-                <div class="absolute inset-0 bg-gradient-to-br from-purple-600 to-violet-600 opacity-75 group-hover:opacity-100 transition-opacity"></div>
-                <div class="relative p-4 sm:p-6 h-32 sm:h-40 flex flex-col justify-end bg-gray-900/50 backdrop-blur group-hover:bg-gray-900/30 transition-all">
-                  <h3 class="text-lg sm:text-xl font-bold text-white mb-1">StreamConnect</h3>
-                  <p class="text-gray-300 text-xs sm:text-sm line-clamp-2">Video streaming platform</p>
-                </div>
+              </template>
+              <div v-else class="col-span-full text-center py-12">
+                <p class="text-gray-400 text-lg">No blog posts available yet.</p>
+                <p class="text-gray-500 text-sm mt-2">Check back soon for technical insights and tutorials!</p>
               </div>
             </div>
           </div>
@@ -383,13 +295,13 @@
 
     <!-- Section 5: Services -->
     <section class="section-panel" data-section="services">
-      <div class="w-screen h-screen flex flex-col p-4 sm:p-6 md:p-8 overflow-hidden">
+      <div class="w-screen h-screen flex flex-col justify-start pt-16 sm:pt-20 md:pt-24 p-4 sm:p-6 md:p-8 overflow-hidden">
         <div class="max-w-6xl mx-auto w-full h-full flex flex-col">
-          <h2 class="animate-element text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 text-center flex-shrink-0">
+          <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-center flex-shrink-0">
             Services
           </h2>
-          <div class="animate-element overflow-y-auto flex-1 pr-2 services-scroll">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6 lg:gap-8 pb-8">
+          <div class="animate-element overflow-y-auto flex-1 pr-2 services-scroll max-h-[calc(100vh-180px)] sm:max-h-[calc(100vh-200px)]">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 pb-8">
             <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 border border-gray-700 hover:border-blue-500 transition-colors">
               <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-500/20 flex items-center justify-center mb-3 sm:mb-4">
                 <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
@@ -518,30 +430,30 @@
     <section class="section-panel" data-section="contact">
       <div class="w-screen h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
         <div class="max-w-4xl mx-auto w-full text-center">
-          <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
+          <h2 class="animate-element text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-3 sm:mb-4 md:mb-6">
             Let's Build Something
             <span class="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
               Extraordinary
             </span>
           </h2>
-          <p class="animate-element text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-10 md:mb-12">
+          <p class="animate-element text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-6 sm:mb-8 md:mb-10">
             Ready to transform your technical vision into reality?
           </p>
-          <div class="animate-element flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="mailto:contact@jamesrossjr.com" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg hover:shadow-2xl hover:shadow-purple-500/25 transition-all transform hover:scale-105">
+          <div class="animate-element flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <a href="mailto:contact@jamesrossjr.com" class="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm sm:text-base font-semibold rounded-lg hover:shadow-2xl hover:shadow-purple-500/25 transition-all transform hover:scale-105">
               Start a Conversation
             </a>
-            <a href="https://calendly.com/jamesrossjr" class="px-8 py-4 bg-gray-800 text-white font-semibold rounded-lg border border-gray-700 hover:bg-gray-700 transition-all">
+            <a href="https://calendly.com/jamesrossjr" class="px-6 sm:px-8 py-3 sm:py-4 bg-gray-800 text-white text-sm sm:text-base font-semibold rounded-lg border border-gray-700 hover:bg-gray-700 transition-all">
               Schedule a Call
             </a>
           </div>
-          <div class="animate-element mt-12 flex justify-center gap-6">
-            <a href="https://linkedin.com/in/jamesrossjr" class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-all">
+          <div class="animate-element mt-8 sm:mt-10 md:mt-12 flex justify-center gap-4 sm:gap-6">
+            <a href="https://linkedin.com/in/jamesrossjr" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-blue-600 transition-all">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
               </svg>
             </a>
-            <a href="https://github.com/jamesrossjr" class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-700 transition-all">
+            <a href="https://github.com/jamesrossjr" class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-700 transition-all">
               <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
               </svg>
@@ -605,48 +517,40 @@ useHead({
 }
 
 /* Custom scrollbar for Services section */
-.services-scroll::-webkit-scrollbar {
-  width: 8px;
+.services-scroll::-webkit-scrollbar,
+.portfolio-scroll::-webkit-scrollbar,
+.blog-scroll::-webkit-scrollbar,
+.about-scroll::-webkit-scrollbar {
+  width: 6px;
 }
 
-.services-scroll::-webkit-scrollbar-track {
+.services-scroll::-webkit-scrollbar-track,
+.portfolio-scroll::-webkit-scrollbar-track,
+.blog-scroll::-webkit-scrollbar-track,
+.about-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.services-scroll::-webkit-scrollbar-thumb {
+.services-scroll::-webkit-scrollbar-thumb,
+.portfolio-scroll::-webkit-scrollbar-thumb,
+.blog-scroll::-webkit-scrollbar-thumb,
+.about-scroll::-webkit-scrollbar-thumb {
   background: rgba(156, 163, 175, 0.3);
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
-.services-scroll::-webkit-scrollbar-thumb:hover {
+.services-scroll::-webkit-scrollbar-thumb:hover,
+.portfolio-scroll::-webkit-scrollbar-thumb:hover,
+.blog-scroll::-webkit-scrollbar-thumb:hover,
+.about-scroll::-webkit-scrollbar-thumb:hover {
   background: rgba(156, 163, 175, 0.5);
 }
 
 /* Firefox scrollbar */
-.services-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
-}
-
-/* Portfolio scrollbar styles */
-.portfolio-scroll::-webkit-scrollbar {
-  width: 8px;
-}
-
-.portfolio-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.portfolio-scroll::-webkit-scrollbar-thumb {
-  background: rgba(156, 163, 175, 0.3);
-  border-radius: 4px;
-}
-
-.portfolio-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(156, 163, 175, 0.5);
-}
-
-.portfolio-scroll {
+.services-scroll,
+.portfolio-scroll,
+.blog-scroll,
+.about-scroll {
   scrollbar-width: thin;
   scrollbar-color: rgba(156, 163, 175, 0.3) transparent;
 }
@@ -656,10 +560,18 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Disable vertical scroll */
-body {
-  overflow-y: hidden;
-  overflow-x: auto;
+/* Disable vertical scroll on desktop, allow on mobile */
+@media (min-width: 768px) {
+  body {
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  body {
+    overflow: hidden;
+  }
 }
 
 /* Section panels */
