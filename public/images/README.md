@@ -1,6 +1,6 @@
 # Image Assets
 
-## Headshot Image
+## Headshot Image (Also used as default Open Graph image)
 
 Add your professional headshot image to this directory with the filename: `headshot.jpg`
 
@@ -12,7 +12,8 @@ Add your professional headshot image to this directory with the filename: `heads
 
 ### Where it's used:
 1. Blog article author section (`/blog/[slug]`)
-2. Fallback: If image is not found, a gradient placeholder will be shown
+2. Default Open Graph image for social media previews when articles don't have a specific image
+3. Fallback: If image is not found, a gradient placeholder will be shown
 
 ### To add your headshot:
 1. Place your image file in this directory: `/public/images/headshot.jpg`

@@ -204,20 +204,44 @@ const copyLink = async () => {
   }
 }
 
-// SEO
+// SEO and Social Media Preview
 useHead({
-  title: article.value?.title,
+  title: article.value?.title ? `${article.value.title} | James Ross Jr.` : 'Blog | James Ross Jr.',
   meta: [
-    { name: 'description', content: article.value?.description },
-    { property: 'og:title', content: article.value?.title },
-    { property: 'og:description', content: article.value?.description },
+    // Basic meta tags
+    { name: 'description', content: article.value?.description || 'Technical insights and tutorials from James Ross Jr.' },
+    { name: 'author', content: article.value?.author?.name || 'James Ross Jr.' },
+
+    // Open Graph meta tags for rich previews
+    { property: 'og:title', content: article.value?.title || 'Blog Article' },
+    { property: 'og:description', content: article.value?.description || 'Technical insights and tutorials' },
     { property: 'og:type', content: 'article' },
     { property: 'og:url', content: `https://jamesrossjr.com${route.path}` },
+    { property: 'og:image', content: article.value?.image || 'https://jamesrossjr.com/images/headshot.jpg' },
+    { property: 'og:image:width', content: article.value?.image ? '1200' : '400' },
+    { property: 'og:image:height', content: article.value?.image ? '630' : '400' },
+    { property: 'og:site_name', content: 'James Ross Jr.' },
+    { property: 'og:locale', content: 'en_US' },
+
+    // Article specific Open Graph tags
     { property: 'article:published_time', content: article.value?.date },
-    { property: 'article:author', content: article.value?.author?.name },
+    { property: 'article:author', content: article.value?.author?.name || 'James Ross Jr.' },
+    { property: 'article:section', content: article.value?.category || 'Technology' },
+
+    // Twitter Card meta tags
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: article.value?.title },
-    { name: 'twitter:description', content: article.value?.description },
+    { name: 'twitter:site', content: '@jamesrossjr' },
+    { name: 'twitter:creator', content: '@jamesrossjr' },
+    { name: 'twitter:title', content: article.value?.title || 'Blog Article' },
+    { name: 'twitter:description', content: article.value?.description || 'Technical insights and tutorials' },
+    { name: 'twitter:image', content: article.value?.image || 'https://jamesrossjr.com/images/headshot.jpg' },
+    { name: 'twitter:image:alt', content: article.value?.title || 'Blog Article Preview' },
+
+    // LinkedIn specific (uses Open Graph)
+    { property: 'linkedin:owner', content: 'James Ross Jr.' },
+  ],
+  link: [
+    { rel: 'canonical', href: `https://jamesrossjr.com${route.path}` }
   ]
 })
 </script>
