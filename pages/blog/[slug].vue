@@ -42,11 +42,11 @@
         <!-- Article Header -->
         <header class="mb-12">
           <div class="flex items-center gap-4 mb-6">
-            <span class="px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium">
+            <span v-if="article.category" class="px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white text-sm font-medium">
               {{ article.category }}
             </span>
-            <span class="text-gray-400 text-sm">{{ article.readTime }} min read</span>
-            <span class="text-gray-400 text-sm">{{ formatDate(article.date) }}</span>
+            <span v-if="article.readTime" class="text-gray-400 text-sm">{{ article.readTime }} min read</span>
+            <span v-if="article.date" class="text-gray-400 text-sm">{{ formatDate(article.date) }}</span>
           </div>
           
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
@@ -57,17 +57,17 @@
             {{ article.description }}
           </p>
           
-          <div v-if="article.author" class="mt-8 flex items-center gap-4">
+          <div class="mt-8 flex items-center gap-4">
             <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500"></div>
             <div>
-              <p class="text-white font-medium">{{ article.author.name }}</p>
-              <p class="text-gray-400 text-sm">{{ article.author.bio }}</p>
+              <p class="text-white font-medium">{{ article.author?.name || 'James Ross Jr.' }}</p>
+              <p class="text-gray-400 text-sm">{{ article.author?.bio || 'Strategic Systems Architect' }}</p>
             </div>
           </div>
         </header>
         
         <!-- Article Body -->
-        <ContentRenderer :value="article" class="prose prose-lg prose-invert max-w-none" />
+        <div v-html="article.body" class="prose prose-lg prose-invert max-w-none" />
         
         <!-- Tags -->
         <div v-if="article.tags && article.tags.length > 0" class="mt-12 pt-8 border-t border-gray-800">
