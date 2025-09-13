@@ -41,7 +41,7 @@
 
     <!-- Section 2: About -->
     <section class="section-panel" data-section="about">
-      <div class="w-screen h-screen flex flex-col justify-start pt-16 sm:pt-20 md:pt-24 p-4 sm:p-6 md:p-8 overflow-hidden">
+      <div class="w-screen h-screen flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden">
         <div class="max-w-6xl mx-auto w-full">
           <!-- Title at the top -->
           <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2 text-center">
@@ -50,14 +50,14 @@
           </h2>
           
           <!-- Content below -->
-          <div class="overflow-y-auto max-h-[calc(100vh-200px)] sm:max-h-[calc(100vh-240px)] pr-2 about-scroll">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start mt-6 sm:mt-8">
-              <div class="text-center lg:text-left">
+          <div class="pr-2 mt-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+              <div class="text-center">
                 <p class="animate-element text-gray-300 text-sm sm:text-base md:text-lg leading-relaxed mb-4 md:mb-6">
                   With 6 years of experience architecting enterprise solutions,<br class="hidden sm:block" />
                   I bridge the gap between business strategy and technical implementation.
                 </p>
-                <div class="animate-element space-y-3 sm:space-y-4 flex flex-col items-center lg:items-start">
+                <div class="animate-element space-y-3 sm:space-y-4 flex flex-col items-center">
                   <div class="flex items-center gap-3 sm:gap-4 w-full max-w-sm lg:max-w-none">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
                       <svg class="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
@@ -126,14 +126,14 @@
 
     <!-- Section 3: Portfolio -->
     <section class="section-panel" data-section="portfolio">
-      <div class="w-screen h-screen flex flex-col justify-start pt-16 sm:pt-20 md:pt-24 p-4 sm:p-6 md:p-8 overflow-hidden">
+      <div class="w-screen h-screen flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden">
         <div class="max-w-7xl mx-auto w-full">
           <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-center">
             Featured Work
           </h2>
           
-          <!-- Scrollable Projects Container for Mobile -->
-          <div class="animate-element overflow-y-auto max-h-[calc(100vh-180px)] sm:max-h-[calc(100vh-200px)] md:max-h-[70vh] pr-2 portfolio-scroll">
+          <!-- Scrollable Projects Container -->
+          <div class="animate-element overflow-y-auto max-h-[60vh] pr-2 portfolio-scroll">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6 pb-4">
               <!-- Project 1: Canvas-CLI -->
               <div class="group relative overflow-hidden rounded-lg cursor-pointer">
@@ -250,7 +250,7 @@
 
     <!-- Section 4: Blog & Insights -->
     <section class="section-panel" data-section="blog">
-      <div class="w-screen h-screen flex flex-col justify-start pt-16 sm:pt-20 md:pt-24 p-4 sm:p-6 md:p-8 overflow-hidden">
+      <div class="w-screen h-screen flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden">
         <div class="max-w-7xl mx-auto w-full">
           <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-center">
             Blog & Insights
@@ -260,7 +260,7 @@
           </p>
           
           <!-- Blog Posts Grid -->
-          <div class="animate-element overflow-y-auto max-h-[calc(100vh-240px)] sm:max-h-[calc(100vh-280px)] md:max-h-[65vh] pr-2 blog-scroll">
+          <div class="animate-element overflow-y-auto max-h-[50vh] pr-2 blog-scroll">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 pb-4">
               <template v-if="allPosts && allPosts.length > 0">
                 <div v-for="post in allPosts" :key="post._path" class="group cursor-pointer">
@@ -295,12 +295,12 @@
 
     <!-- Section 5: Services -->
     <section class="section-panel" data-section="services">
-      <div class="w-screen h-screen flex flex-col justify-start pt-16 sm:pt-20 md:pt-24 p-4 sm:p-6 md:p-8 overflow-hidden">
-        <div class="max-w-6xl mx-auto w-full h-full flex flex-col">
-          <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-center flex-shrink-0">
+      <div class="w-screen h-screen flex items-center justify-center p-4 sm:p-6 md:p-8 overflow-hidden">
+        <div class="max-w-6xl mx-auto w-full flex flex-col">
+          <h2 class="animate-element text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 text-center">
             Services
           </h2>
-          <div class="animate-element overflow-y-auto flex-1 pr-2 services-scroll max-h-[calc(100vh-180px)] sm:max-h-[calc(100vh-200px)]">
+          <div class="animate-element overflow-y-auto pr-2 services-scroll max-h-[60vh]">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 pb-8">
             <div class="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-xl rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 border border-gray-700 hover:border-blue-500 transition-colors">
               <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-500/20 flex items-center justify-center mb-3 sm:mb-4">
