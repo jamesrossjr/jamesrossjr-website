@@ -14,21 +14,30 @@
         </NuxtLink>
         
         <div class="flex items-center gap-3">
-          <button 
+          <button
             @click="shareOnLinkedIn"
             class="p-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors"
             title="Share on LinkedIn"
           >
-            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-gray-400 hover:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
               <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
             </svg>
           </button>
-          <button 
+          <button
+            @click="shareOnTwitter"
+            class="p-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors"
+            title="Share on X (Twitter)"
+          >
+            <svg class="w-5 h-5 text-gray-400 hover:text-blue-400" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </button>
+          <button
             @click="copyLink"
             class="p-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors"
             title="Copy link"
           >
-            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-gray-400 hover:text-green-400" fill="currentColor" viewBox="0 0 20 20">
               <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
             </svg>
           </button>
@@ -156,15 +165,43 @@ const formatDate = (dateString: string) => {
 // Share functions
 const shareOnLinkedIn = () => {
   const url = `https://jamesrossjr.com${route.path}`
-  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
-  window.open(linkedInUrl, '_blank')
+  const title = article.value?.title || 'Check out this article'
+  const summary = article.value?.description || ''
+
+  // LinkedIn's current share URL format
+  const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}&source=${encodeURIComponent('jamesrossjr.com')}`
+
+  window.open(linkedInUrl, '_blank', 'width=600,height=600')
 }
 
 
-const copyLink = () => {
+const shareOnTwitter = () => {
   const url = `https://jamesrossjr.com${route.path}`
-  navigator.clipboard.writeText(url)
-  alert('Link copied to clipboard!')
+  const text = article.value?.title || 'Check out this article'
+
+  // Twitter's share URL format
+  const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}&via=jamesrossjr`
+
+  window.open(twitterUrl, '_blank', 'width=600,height=400')
+}
+
+const copyLink = async () => {
+  const url = `https://jamesrossjr.com${route.path}`
+  try {
+    await navigator.clipboard.writeText(url)
+    // Show success message (you could use a toast notification here)
+    const button = event?.currentTarget as HTMLElement
+    if (button) {
+      const originalTitle = button.title
+      button.title = 'Copied!'
+      setTimeout(() => {
+        button.title = originalTitle
+      }, 2000)
+    }
+  } catch (err) {
+    console.error('Failed to copy link:', err)
+    alert('Failed to copy link. Please copy manually: ' + url)
+  }
 }
 
 // SEO
