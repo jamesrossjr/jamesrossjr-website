@@ -58,7 +58,13 @@
           </p>
           
           <div class="mt-8 flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500"></div>
+            <img
+              src="/images/headshot.jpg"
+              alt="James Ross Jr."
+              class="w-12 h-12 rounded-full object-cover border-2 border-blue-500/20"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+            />
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500" style="display: none;"></div>
             <div>
               <p class="text-white font-medium">{{ article.author?.name || 'James Ross Jr.' }}</p>
               <p class="text-gray-400 text-sm">{{ article.author?.bio || 'Strategic Systems Architect' }}</p>
