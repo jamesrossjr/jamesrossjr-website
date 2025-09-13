@@ -2,7 +2,7 @@
   <canvas
     ref="canvas"
     class="fixed top-0 left-0 w-full h-full"
-    style="pointer-events: auto; z-index: 0;"
+    style="pointer-events: none; z-index: 0;"
   />
 </template>
 

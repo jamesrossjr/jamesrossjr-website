@@ -67,7 +67,9 @@
         </header>
         
         <!-- Article Body -->
-        <div v-html="article.body" class="prose prose-lg prose-invert max-w-none" />
+        <div class="prose prose-lg prose-invert max-w-none">
+          <div v-html="article.body"></div>
+        </div>
         
         <!-- Tags -->
         <div v-if="article.tags && article.tags.length > 0" class="mt-12 pt-8 border-t border-gray-800">
@@ -197,6 +199,7 @@ useHead({
   --tw-prose-quote-borders: rgb(75 85 99);
   --tw-prose-hr: rgb(75 85 99);
   --tw-prose-bullets: rgb(156 163 175);
+  color: rgb(209 213 219);
 }
 
 :deep(.prose h2) {

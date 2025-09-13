@@ -55,7 +55,25 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'netlify'
+    preset: 'netlify',
+    prerender: {
+      crawlLinks: true,
+      routes: [
+        '/',
+        '/api/blog/defi-smart-contract-security',
+        '/api/blog/quantum-computing-enterprise-applications-2025',
+        '/api/blog/rust-vs-go-performance',
+        '/api/blog/scalable-ai-pipelines-kubernetes-ray',
+        '/api/blog/web3-development-complete-guide-2025',
+        '/api/blog/zero-trust-twingate-enterprise',
+        '/blog/defi-smart-contract-security',
+        '/blog/quantum-computing-enterprise-applications-2025',
+        '/blog/rust-vs-go-performance',
+        '/blog/scalable-ai-pipelines-kubernetes-ray',
+        '/blog/web3-development-complete-guide-2025',
+        '/blog/zero-trust-twingate-enterprise'
+      ]
+    }
   },
 
   runtimeConfig: {
