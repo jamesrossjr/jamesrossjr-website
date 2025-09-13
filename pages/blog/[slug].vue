@@ -217,7 +217,7 @@ useHead({
     { property: 'og:description', content: article.value?.description || 'Technical insights and tutorials' },
     { property: 'og:type', content: 'article' },
     { property: 'og:url', content: `https://jamesrossjr.com${route.path}` },
-    { property: 'og:image', content: article.value?.image || 'https://jamesrossjr.com/images/headshot.jpg' },
+    { property: 'og:image', content: article.value?.image ? `https://jamesrossjr.com${article.value.image}` : 'https://jamesrossjr.com/images/headshot.jpg' },
     { property: 'og:image:width', content: article.value?.image ? '1200' : '400' },
     { property: 'og:image:height', content: article.value?.image ? '630' : '400' },
     { property: 'og:site_name', content: 'James Ross Jr.' },
@@ -234,7 +234,7 @@ useHead({
     { name: 'twitter:creator', content: '@jamesrossjr' },
     { name: 'twitter:title', content: article.value?.title || 'Blog Article' },
     { name: 'twitter:description', content: article.value?.description || 'Technical insights and tutorials' },
-    { name: 'twitter:image', content: article.value?.image || 'https://jamesrossjr.com/images/headshot.jpg' },
+    { name: 'twitter:image', content: article.value?.image ? `https://jamesrossjr.com${article.value.image}` : 'https://jamesrossjr.com/images/headshot.jpg' },
     { name: 'twitter:image:alt', content: article.value?.title || 'Blog Article Preview' },
 
     // LinkedIn specific (uses Open Graph)
