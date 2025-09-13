@@ -34,7 +34,12 @@ export default defineEventHandler(async (event) => {
       ...frontmatter,
       slug,
       _path: `/blog/${slug}`,
-      body: htmlContent
+      body: htmlContent,
+      // Add default author if not present
+      author: frontmatter.author || {
+        name: 'James Ross Jr.',
+        bio: 'Strategic Systems Architect | 15+ Years Enterprise Security'
+      }
     }
   } catch (error) {
     throw createError({
